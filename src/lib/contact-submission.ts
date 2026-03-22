@@ -32,6 +32,8 @@ export function normalizeContactPayload(payload: unknown) {
     email: sanitizeInlineText(record.email),
     phone: sanitizeInlineText(record.phone),
     message: sanitizeMultilineText(record.message),
+    utm_source: sanitizeInlineText(record.utm_source),
+    utm_campaign: sanitizeInlineText(record.utm_campaign),
   };
 }
 

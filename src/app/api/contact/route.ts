@@ -6,6 +6,7 @@ import {
 import { enforceRateLimit, getRateLimitKey } from "@/lib/contact-rate-limit";
 import { normalizeContactPayload, parseContactSubmission } from "@/lib/contact-submission";
 import { submitContactRequest } from "@/lib/api";
+import { supabase } from "@/lib/supabase";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -84,6 +85,34 @@ export async function POST(request: Request) {
       });
 
       return createValidationErrorResponse(parsedPayload.error);
+    }
+
+    const { error: insertError } = await supabase.from("leads").insert([
+      {
+        name: parsedPayload.data.name,
+        email: parsedPayload.data.email,
+        phone: parsedPayload.data.phone,
+        message: parsedPayload.data.message,
+        utm_source: typeof normalizedBody.utm_source === "string" ? normalizedBody.utm_source : null,
+        utm_campaign: typeof normalizedBody.utm_campaign === "string" ? normalizedBody.utm_campaign : null,
+        page_path: "/contact",
+      },
+    ]);
+
+    if (insertError) {
+      console.error("[ValleyHC] contact lead insert failed", insertError);
+
+      logSafeSubmissionEvent("contact lead insert failed", {
+        route: "contact",
+        errorName: insertError.name,
+      });
+
+      return createNoStoreJsonResponse(
+        {
+          error: "We could not save your request right now. Please try again shortly.",
+        },
+        { status: 500 },
+      );
     }
 
     const result = await submitContactRequest(parsedPayload.data);
