@@ -1,6 +1,6 @@
 # Valley Health and Counseling
 
-ValleyHC is a standalone marketing website for a behavioral health clinic. It is built with Next.js 14, TypeScript, Tailwind CSS, reusable shadcn-style UI primitives, and client-side validated forms for safe contact and referral requests.
+ValleyHC is a standalone marketing website for a behavioral health clinic. It is built with Next.js 14, TypeScript, Tailwind CSS, reusable shadcn-style UI primitives, and validated contact/referral submission flows designed to avoid PHI storage.
 
 ## Goals
 
@@ -9,6 +9,7 @@ ValleyHC is a standalone marketing website for a behavioral health clinic. It is
 - Mobile-first responsive design
 - Frontend-only forms with no PHI storage
 - Build-ready structure for future VEHR integration
+- Vercel-friendly deployment path with domain-ready metadata and SEO primitives
 
 ## Project structure
 
@@ -68,10 +69,19 @@ npm run build
 
 ## Form behavior
 
-- Forms are frontend-only for now
-- Contact and referral submissions log to the browser console
+- Contact and referral forms submit to internal Next.js route handlers
+- Submissions are validated with Zod on both client and server
+- The current implementation does not persist PHI or write submissions to a database
+- Server-side logging is limited to safe submission metadata only
 - Referral requests explicitly warn users not to include protected health information
 - Referral form allows patient initials only
+
+### Submission endpoints
+
+- `POST /api/contact-request`
+- `POST /api/referral-request`
+
+These endpoints are ready to be swapped later to email, CRM, intake orchestration, or VEHR-connected workflows without changing the public form UX.
 
 ## Vercel deployment
 
@@ -79,6 +89,14 @@ Recommended next steps for deployment:
 
 1. Import the repository into Vercel
 2. Keep the framework preset as `Next.js`
-3. Deploy preview builds and verify the public routes
-4. Add a production domain once copy and branding are finalized
-5. Replace console-only form handling with a safe backend workflow when ready
+3. Deploy preview builds and verify the public routes plus `/api/contact-request` and `/api/referral-request`
+4. Add the production domain in Vercel once DNS is ready
+5. Confirm generated `robots.txt`, `sitemap.xml`, and `manifest.webmanifest`
+6. Replace the internal no-persistence handlers with your chosen intake destination when you are ready
+
+### Deployment-ready features already in repo
+
+- Site-wide metadata with Vercel-aware `metadataBase`
+- `robots.txt`, sitemap, and web manifest routes
+- Security headers in `next.config.mjs`
+- Standalone public routing with no dependency on VEHR UI

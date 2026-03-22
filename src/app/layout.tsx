@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 
 import { SiteShell } from "@/components/layout/site-shell";
 import { siteConfig } from "@/lib/marketing";
+import { getSiteUrl } from "@/lib/site-url";
 
 import "./globals.css";
 
@@ -12,6 +13,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(getSiteUrl()),
   title: {
     default: siteConfig.name,
     template: `%s | ${siteConfig.name}`,

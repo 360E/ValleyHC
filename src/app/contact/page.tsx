@@ -50,7 +50,7 @@ export default function ContactPage() {
           <CardHeader>
             <CardTitle>Contact request</CardTitle>
             <CardDescription>
-              This form is for non-sensitive outreach only and currently logs locally to the browser console until backend intake is connected.
+              This form submits through a validated website endpoint for non-sensitive outreach only. Please do not include protected health information.
             </CardDescription>
           </CardHeader>
           <CardContent>

@@ -63,7 +63,6 @@ export const navigationItems: NavigationItem[] = [
 export const footerLinks: NavigationItem[] = [
   ...navigationItems,
   { href: "/insurance", label: "Insurance" },
-  { href: "/login", label: "Staff Portal" },
 ];
 
 export const heroHighlights = [

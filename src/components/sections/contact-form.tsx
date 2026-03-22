@@ -10,8 +10,15 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { contactRequestSchema, type ContactRequestValues } from "@/lib/marketing-forms";
 
+type SubmissionResponse = {
+  success?: boolean;
+  message?: string;
+  error?: string;
+};
+
 export function ContactForm() {
-  const [submittedRequest, setSubmittedRequest] = useState<ContactRequestValues | null>(null);
+  const [submissionMessage, setSubmissionMessage] = useState<string | null>(null);
+  const [submissionError, setSubmissionError] = useState<string | null>(null);
   const {
     register,
     handleSubmit,
@@ -28,16 +35,43 @@ export function ContactForm() {
   });
 
   async function onSubmit(values: ContactRequestValues) {
-    console.info("[ValleyHC] Contact request submitted", values);
-    setSubmittedRequest(values);
-    reset();
+    setSubmissionMessage(null);
+    setSubmissionError(null);
+
+    try {
+      const response = await fetch("/api/contact-request", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
+
+      const payload = (await response.json().catch(() => null)) as SubmissionResponse | null;
+
+      if (!response.ok) {
+        setSubmissionError(payload?.error ?? "We could not send your request right now. Please call the clinic instead.");
+        return;
+      }
+
+      setSubmissionMessage(payload?.message ?? "Thanks. Your request was sent to ValleyHC for follow-up.");
+      reset();
+    } catch {
+      setSubmissionError("We could not send your request right now. Please call the clinic instead.");
+    }
   }
 
   return (
     <div className="space-y-6">
-      {submittedRequest ? (
+      {submissionMessage ? (
         <div className="rounded-[1.5rem] border border-emerald-200 bg-emerald-50 px-5 py-4 text-sm leading-6 text-emerald-900">
-          Thanks, we captured your request locally for now. A future VEHR-connected intake workflow can replace this console-only submission.
+          {submissionMessage}
+        </div>
+      ) : null}
+
+      {submissionError ? (
+        <div className="rounded-[1.5rem] border border-rose-200 bg-rose-50 px-5 py-4 text-sm leading-6 text-rose-900">
+          {submissionError}
         </div>
       ) : null}
 

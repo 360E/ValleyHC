@@ -76,7 +76,9 @@ export default function ReferralsPage() {
         <Card className="animate-fade-up animate-delay-300">
           <CardHeader>
             <CardTitle>Referral request form</CardTitle>
-            <CardDescription>This frontend-only form validates inputs and logs to the console until the intake backend is connected.</CardDescription>
+            <CardDescription>
+              This form submits through a validated website endpoint and is limited to non-sensitive referral details only.
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <ReferralForm />

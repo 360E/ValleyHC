@@ -10,8 +10,15 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { referralRequestSchema, type ReferralRequestValues } from "@/lib/marketing-forms";
 
+type SubmissionResponse = {
+  success?: boolean;
+  message?: string;
+  error?: string;
+};
+
 export function ReferralForm() {
-  const [submittedRequest, setSubmittedRequest] = useState<ReferralRequestValues | null>(null);
+  const [submissionMessage, setSubmissionMessage] = useState<string | null>(null);
+  const [submissionError, setSubmissionError] = useState<string | null>(null);
   const {
     register,
     handleSubmit,
@@ -30,9 +37,30 @@ export function ReferralForm() {
   });
 
   async function onSubmit(values: ReferralRequestValues) {
-    console.info("[ValleyHC] Referral request submitted", values);
-    setSubmittedRequest(values);
-    reset();
+    setSubmissionMessage(null);
+    setSubmissionError(null);
+
+    try {
+      const response = await fetch("/api/referral-request", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
+
+      const payload = (await response.json().catch(() => null)) as SubmissionResponse | null;
+
+      if (!response.ok) {
+        setSubmissionError(payload?.error ?? "We could not send the referral right now. Please call the clinic instead.");
+        return;
+      }
+
+      setSubmissionMessage(payload?.message ?? "Thanks. The referral request was sent to ValleyHC for follow-up.");
+      reset();
+    } catch {
+      setSubmissionError("We could not send the referral right now. Please call the clinic instead.");
+    }
   }
 
   return (
@@ -41,9 +69,15 @@ export function ReferralForm() {
         Do not include protected health information. Use patient initials only and keep notes general and non-sensitive.
       </div>
 
-      {submittedRequest ? (
+      {submissionMessage ? (
         <div className="rounded-[1.5rem] border border-emerald-200 bg-emerald-50 px-5 py-4 text-sm leading-6 text-emerald-900">
-          Referral request validated and logged locally. This will be ready to swap to a backend intake endpoint when the next integration step begins.
+          {submissionMessage}
+        </div>
+      ) : null}
+
+      {submissionError ? (
+        <div className="rounded-[1.5rem] border border-rose-200 bg-rose-50 px-5 py-4 text-sm leading-6 text-rose-900">
+          {submissionError}
         </div>
       ) : null}
 
