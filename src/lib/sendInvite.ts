@@ -3,7 +3,7 @@ import "server-only";
 import { resend } from "./resend.ts";
 
 const ADMIN_EMAIL = "T.Rapp@valleyhc.org";
-const SENDER_EMAIL = "noreply@360.encompass.com";
+const SENDER_EMAIL = "noreply@360-encompass.com";
 
 function escapeHtml(value: string) {
   return value

@@ -6,7 +6,7 @@ const { loadEnvConfig } = nextEnv;
 loadEnvConfig(process.cwd());
 
 const ADMIN_EMAIL = "T.Rapp@valleyhc.org";
-const SENDER_EMAIL = "noreply@360.encompass.com";
+const SENDER_EMAIL = "noreply@360-encompass.com";
 
 function readRequiredEnv(
   name: "SUPABASE_URL" | "SUPABASE_SERVICE_ROLE_KEY" | "RESEND_API_KEY" | "SITE_URL" | "SET_PASSWORD_URL",
