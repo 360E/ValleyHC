@@ -41,6 +41,21 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json().catch(() => null);
+    console.log("BODY:", body);
+
+    const { name, email, phone, message } = (body ?? {}) as {
+      name?: unknown;
+      email?: unknown;
+      phone?: unknown;
+      message?: unknown;
+    };
+
+    void phone;
+
+    if (!name || !email || !message) {
+      return new Response(JSON.stringify({ error: "Missing required fields" }), { status: 400 });
+    }
+
     const normalizedBody = normalizeContactPayload(body);
     const missingFields = getMissingContactFields(normalizedBody);
 
