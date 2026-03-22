@@ -54,7 +54,7 @@ export function ContactForm() {
         return;
       }
 
-      setSubmissionMessage(payload?.message ?? "Your request has been received. Our team will contact you shortly.");
+      setSubmissionMessage(payload?.message ?? "Message sent successfully");
       reset();
     } catch {
       setSubmissionError("We could not send your request right now. Please call the clinic instead.");

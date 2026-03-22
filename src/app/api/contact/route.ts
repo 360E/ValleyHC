@@ -86,6 +86,6 @@ export async function POST(request: Request) {
 
   return createNoStoreJsonResponse({
     success: true,
-    message: "Your request has been received. Our team will contact you shortly.",
+    message: "Message sent successfully",
   });
 }
