@@ -63,6 +63,9 @@ CONTACT_EMAIL=your-email@example.com
 
 - `RESEND_API_KEY` is your Resend API key
 - `CONTACT_EMAIL` is the inbox that should receive website contact and referral emails
+- These values are read server-side from `process.env` only
+- They are used only in route handlers and server-only helpers, so they are not exposed to the browser bundle
+- If either value is missing, the form routes fail safely with a generic temporary-unavailable response instead of exposing configuration details
 
 ## Local development
 
@@ -82,6 +85,8 @@ npm run build
 ```
 
 The production build output is written to `.next`.
+
+`npm run typecheck` uses `tsconfig.typecheck.json` for TypeScript checking only, while `npm run build` performs the Next.js production build. This avoids `.next` collisions when both commands are run in the same CI or local session.
 
 ## Form behavior
 
@@ -129,11 +134,13 @@ Recommended next steps for deployment:
 
 This project uses Next.js App Router API routes for `/api/contact` and `/api/referral`, so it should be deployed to Azure Static Web Apps as a hybrid Next.js app instead of a pure static export.
 
+The current route handlers are intentionally kept on the Node.js runtime because the site depends on the Resend SDK and server-only environment variables. This keeps the existing email functionality intact for Azure Static Web Apps hybrid hosting.
+
 ### Workflow
 
 The repository includes a GitHub Actions workflow at `.github/workflows/azure-static-web-apps.yml` that:
 
-1. Installs dependencies with `npm ci`
+1. Installs dependencies with `npm install`
 2. Runs `npm run lint`
 3. Runs `npm run build`
 4. Deploys to Azure Static Web Apps
@@ -168,4 +175,16 @@ RESEND_API_KEY
 CONTACT_EMAIL
 ```
 
-After the variables are added, redeploy the app and verify the public pages plus `/api/contact` and `/api/referral`.
+In the Azure portal:
+
+1. Open your Static Web App
+2. Go to `Environment variables`
+3. Add `RESEND_API_KEY`
+4. Add `CONTACT_EMAIL`
+5. Save the settings and redeploy the site
+
+After the variables are added, verify the public pages plus `/api/contact` and `/api/referral`.
+
+## MCP project config
+
+The repository also includes a local editor MCP context file at `.vscode/mcp.json` for this project. It describes ValleyHC as a public marketing site, keeps the no-PHI rules explicit, and marks VEHR and revenue OS integrations as future work.

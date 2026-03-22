@@ -4,16 +4,27 @@ import { Resend } from "resend";
 
 import { siteConfig } from "@/lib/marketing";
 
-const resendApiKey = process.env.RESEND_API_KEY?.trim();
-const contactEmail = process.env.CONTACT_EMAIL?.trim();
-
 // Resend setup notes:
 // 1. Go to resend.com
 // 2. Create an API key
 // 3. Verify your sending domain, or use Resend's test sender while setting up
-// 4. Add RESEND_API_KEY and CONTACT_EMAIL to Vercel environment variables
+// 4. Add RESEND_API_KEY and CONTACT_EMAIL to your deployment environment variables
+
+function getResendApiKey() {
+  return process.env.RESEND_API_KEY?.trim() || "";
+}
+
+function getConfiguredContactEmail() {
+  return process.env.CONTACT_EMAIL?.trim() || "";
+}
+
+export function hasEmailConfiguration() {
+  return Boolean(getResendApiKey() && getConfiguredContactEmail());
+}
 
 function getResendClient() {
+  const resendApiKey = getResendApiKey();
+
   if (!resendApiKey) {
     throw new Error("Missing RESEND_API_KEY environment variable.");
   }
@@ -22,6 +33,8 @@ function getResendClient() {
 }
 
 export function getContactEmailAddress() {
+  const contactEmail = getConfiguredContactEmail();
+
   if (!contactEmail) {
     throw new Error("Missing CONTACT_EMAIL environment variable.");
   }

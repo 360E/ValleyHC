@@ -2,7 +2,7 @@ import "server-only";
 
 import { createSubmissionId, logSafeSubmissionEvent } from "@/lib/submission-helpers";
 import type { ContactSubmissionValues, ReferralSubmissionValues } from "@/lib/contact-submission";
-import { buildEmailHtml, sendContactEmail } from "@/lib/resend-email";
+import { buildEmailHtml, hasEmailConfiguration, sendContactEmail } from "@/lib/resend-email";
 
 type SubmissionSuccessResult = {
   success: true;
@@ -26,6 +26,21 @@ async function deliverSubmission(options: {
   successMessage: string;
 }) {
   const submissionId = createSubmissionId(options.route);
+
+  if (!hasEmailConfiguration()) {
+    logSafeSubmissionEvent(`${options.route} submission configuration missing`, {
+      submissionId,
+      route: options.route,
+    });
+
+    return {
+      success: false,
+      error:
+        options.route === "contact"
+          ? "This form is temporarily unavailable. Please try again shortly."
+          : "This referral form is temporarily unavailable. Please try again shortly.",
+    } satisfies SubmissionFailureResult;
+  }
 
   try {
     await sendContactEmail({
