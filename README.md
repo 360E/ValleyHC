@@ -64,6 +64,7 @@ CONTACT_EMAIL=your-email@example.com
 - `RESEND_API_KEY` is your Resend API key
 - `CONTACT_EMAIL` is the inbox that should receive website contact and referral emails
 - These values are read server-side from `process.env` only
+- Do not use `NEXT_PUBLIC_RESEND_API_KEY` or `NEXT_PUBLIC_CONTACT_EMAIL`
 - They are used only in route handlers and server-only helpers, so they are not exposed to the browser bundle
 - If either value is missing, the form routes fail safely with a generic temporary-unavailable response instead of exposing configuration details
 

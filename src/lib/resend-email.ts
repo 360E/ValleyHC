@@ -2,6 +2,7 @@ import "server-only";
 
 import { Resend } from "resend";
 
+import { getContactEmail, getResendApiKey, hasRequiredEmailEnv } from "@/lib/env";
 import { siteConfig } from "@/lib/marketing";
 
 // Resend setup notes:
@@ -10,36 +11,16 @@ import { siteConfig } from "@/lib/marketing";
 // 3. Verify your sending domain, or use Resend's test sender while setting up
 // 4. Add RESEND_API_KEY and CONTACT_EMAIL to your deployment environment variables
 
-function getResendApiKey() {
-  return process.env.RESEND_API_KEY?.trim() || "";
-}
-
-function getConfiguredContactEmail() {
-  return process.env.CONTACT_EMAIL?.trim() || "";
-}
-
 export function hasEmailConfiguration() {
-  return Boolean(getResendApiKey() && getConfiguredContactEmail());
+  return hasRequiredEmailEnv();
 }
 
 function getResendClient() {
-  const resendApiKey = getResendApiKey();
-
-  if (!resendApiKey) {
-    throw new Error("Missing RESEND_API_KEY environment variable.");
-  }
-
-  return new Resend(resendApiKey);
+  return new Resend(getResendApiKey());
 }
 
 export function getContactEmailAddress() {
-  const contactEmail = getConfiguredContactEmail();
-
-  if (!contactEmail) {
-    throw new Error("Missing CONTACT_EMAIL environment variable.");
-  }
-
-  return contactEmail;
+  return getContactEmail();
 }
 
 export function getSenderAddress() {
