@@ -4,11 +4,18 @@ import {
   logSafeSubmissionEvent,
 } from "@/lib/submission-helpers";
 import { enforceRateLimit, getRateLimitKey } from "@/lib/contact-rate-limit";
-import { parseContactSubmission } from "@/lib/contact-submission";
+import { normalizeContactPayload, parseContactSubmission } from "@/lib/contact-submission";
 import { submitContactRequest } from "@/lib/api";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+
+function getMissingContactFields(body: ReturnType<typeof normalizeContactPayload>) {
+  return (["name", "email", "phone", "message"] as const).filter((fieldName) => {
+    const value = body[fieldName];
+    return typeof value !== "string" || value.length === 0;
+  });
+}
 
 export async function POST(request: Request) {
   try {
@@ -33,8 +40,28 @@ export async function POST(request: Request) {
       );
     }
 
-    const payload = await request.json().catch(() => null);
-    const parsedPayload = parseContactSubmission(payload);
+    const body = await request.json().catch(() => null);
+    const normalizedBody = normalizeContactPayload(body);
+    const missingFields = getMissingContactFields(normalizedBody);
+
+    logSafeSubmissionEvent("contact submission body received", {
+      route: "contact",
+      hasName: Boolean(normalizedBody.name),
+      hasEmail: Boolean(normalizedBody.email),
+      hasPhone: Boolean(normalizedBody.phone),
+      hasMessage: Boolean(normalizedBody.message),
+    });
+
+    if (missingFields.length > 0) {
+      return createNoStoreJsonResponse(
+        {
+          error: `Missing required field${missingFields.length === 1 ? "" : "s"}: ${missingFields.join(", ")}`,
+        },
+        { status: 400 },
+      );
+    }
+
+    const parsedPayload = parseContactSubmission(normalizedBody);
 
     if (!parsedPayload.success) {
       logSafeSubmissionEvent("contact submission validation failed", {
