@@ -1,80 +1,52 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, CheckCircle2 } from "lucide-react";
 
 import { buttonVariants } from "@/components/ui/button";
-import { heroHighlights, heroStats } from "@/lib/marketing";
 
 export function HeroSection() {
   return (
-    <section className="px-4 pb-8 pt-8 sm:px-6 lg:pb-12 lg:pt-10">
-      <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
-        <div className="animate-fade-up space-y-8">
-          <div className="inline-flex items-center rounded-full border border-white/70 bg-white/85 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-[var(--accent)] shadow-sm">
-            Compassionate, community-based care in Yakima
-          </div>
+    <section className="bg-gradient-to-b from-slate-100/70 to-white px-4 py-12 sm:px-6 lg:py-20">
+      <div className="mx-auto grid max-w-[1100px] gap-12 lg:grid-cols-[60fr_40fr] lg:items-center">
+        <div className="order-1 animate-fade-up space-y-6">
+          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[var(--accent)]">YAKIMA BEHAVIORAL HEALTH</p>
 
-          <div className="space-y-5">
-            <h1 className="text-balance text-5xl font-semibold tracking-tight text-[var(--site-foreground)] md:text-6xl">
-              Compassionate Behavioral Health Care in Yakima
+          <div className="space-y-4">
+            <h1 className="max-w-[600px] text-4xl font-semibold leading-tight tracking-tight text-[var(--site-foreground)] md:text-5xl">
+              Get Real Help for Mental Health &amp; Addiction — Starting Now
             </h1>
-            <p className="text-pretty max-w-2xl text-lg leading-8 text-[var(--text-muted)]">
-              Support for addiction treatment, mental health counseling, and recovery-focused care with a modern intake experience
-              built for patients, families, and referral partners.
+            <p className="max-w-[500px] text-base leading-7 text-[var(--text-muted)] md:text-lg">
+              Local care. Fast intake. Confidential support for individuals and families in Yakima.
             </p>
           </div>
 
           <div className="flex flex-wrap gap-3">
-            <Link href="/contact" className={buttonVariants({ variant: "accent", size: "lg" })}>
-              Get Help Today
+            <Link href="tel:+15094521000" className={buttonVariants({ variant: "accent", size: "lg" })}>
+              Call Now
             </Link>
-            <Link href="/referrals" className={buttonVariants({ variant: "secondary", size: "lg" })}>
-              Refer a Patient
+            <Link href="/contact" className={buttonVariants({ variant: "secondary", size: "lg" })}>
+              Start Request
             </Link>
           </div>
 
-          <ul className="grid gap-3 text-sm leading-6 text-[var(--text-muted)] sm:grid-cols-2">
-            {heroHighlights.map((highlight) => (
-              <li key={highlight} className="flex gap-3 rounded-2xl border border-white/70 bg-white/75 px-4 py-3 shadow-sm">
-                <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-[var(--accent)]" />
-                <span>{highlight}</span>
-              </li>
-            ))}
-          </ul>
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-[var(--text-muted)]">
+            <span className="font-medium">Same-week response</span>
+            <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent)]" aria-hidden="true" />
+            <span className="font-medium">Confidential</span>
+            <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent)]" aria-hidden="true" />
+            <span className="font-medium">Local providers</span>
+          </div>
         </div>
 
-        <div className="animate-fade-up animate-delay-150">
-          <div className="surface-panel rounded-[2rem] p-4 sm:p-6">
-            <div className="grid gap-4">
-              <div className="overflow-hidden rounded-[1.75rem] border border-white/80 bg-brand-mesh p-5">
-                <div className="mb-4 flex items-center justify-between gap-4">
-                  <div>
-                    <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[var(--accent)]">ValleyHC</p>
-                    <p className="mt-2 text-lg font-semibold text-[var(--site-foreground)]">Whole-person support for recovery and wellbeing</p>
-                  </div>
-                  <div className="animate-soft-pulse rounded-full bg-white/80 p-3 text-[var(--primary)] shadow-sm">
-                    <ArrowRight className="h-5 w-5" />
-                  </div>
-                </div>
-                <Image
-                  src="/valleyhc-hero.svg"
-                  alt="Abstract illustration of compassionate behavioral health care and support."
-                  width={960}
-                  height={720}
-                  priority
-                  className="h-auto w-full rounded-[1.35rem]"
-                />
-              </div>
-
-              <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-1">
-                {heroStats.map((stat) => (
-                  <div key={stat.label} className="rounded-[1.5rem] border border-[var(--border)] bg-white/90 p-5 shadow-sm">
-                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent)]">{stat.label}</p>
-                    <p className="mt-3 text-sm leading-6 text-[var(--site-foreground)]">{stat.value}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
+        <div className="order-2 flex animate-fade-up animate-delay-150 justify-center lg:justify-end">
+          <div className="w-full max-w-[420px]">
+            <Image
+              src="/valleyhc-hero.svg"
+              alt="Mountain logo for Valley Health and Counseling."
+              width={840}
+              height={840}
+              priority
+              className="h-auto w-full"
+            />
           </div>
         </div>
       </div>
