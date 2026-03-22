@@ -1,63 +1,36 @@
 import { NextResponse, type NextRequest } from "next/server";
 
-function createUnauthorizedResponse() {
-  return new NextResponse("Authentication required", {
-    status: 401,
+import { hasSupabaseAuthConfiguration, updateAuthSession } from "@/lib/supabase-auth";
+
+function createAuthConfigurationErrorResponse() {
+  return new NextResponse("Supabase authentication is not configured.", {
+    status: 503,
     headers: {
-      "WWW-Authenticate": 'Basic realm="ValleyHC Dashboard", charset="UTF-8"',
       "Cache-Control": "no-store",
     },
   });
 }
 
-function decodeBasicAuthHeader(value: string) {
-  try {
-    const decoded = atob(value);
-    const separatorIndex = decoded.indexOf(":");
-
-    if (separatorIndex === -1) {
-      return null;
-    }
-
-    return {
-      username: decoded.slice(0, separatorIndex),
-      password: decoded.slice(separatorIndex + 1),
-    };
-  } catch {
-    return null;
-  }
-}
-
-export function middleware(request: NextRequest) {
-  const username = process.env.DASHBOARD_USERNAME;
-  const password = process.env.DASHBOARD_PASSWORD;
-
-  if (!username || !password) {
+export async function middleware(request: NextRequest) {
+  if (!hasSupabaseAuthConfiguration()) {
     if (process.env.NODE_ENV !== "production") {
       return NextResponse.next();
     }
 
-    return new NextResponse("Dashboard authentication is not configured.", {
-      status: 503,
-      headers: {
-        "Cache-Control": "no-store",
-      },
-    });
+    return createAuthConfigurationErrorResponse();
   }
 
-  const authorization = request.headers.get("authorization");
+  const session = await updateAuthSession(request);
 
-  if (!authorization?.startsWith("Basic ")) {
-    return createUnauthorizedResponse();
+  if (!session.user) {
+    const loginUrl = request.nextUrl.clone();
+    loginUrl.pathname = "/login";
+    loginUrl.searchParams.set("next", request.nextUrl.pathname);
+
+    return NextResponse.redirect(loginUrl);
   }
 
-  const credentials = decodeBasicAuthHeader(authorization.slice(6));
-
-  if (!credentials || credentials.username !== username || credentials.password !== password) {
-    return createUnauthorizedResponse();
-  }
-
-  return NextResponse.next();
+  return session.response;
 }
 
 export const config = {

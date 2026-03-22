@@ -6,6 +6,7 @@ import { DashboardLeadsTable } from "@/components/dashboard/dashboard-leads-tabl
 import { DashboardLineChartCard } from "@/components/dashboard/dashboard-line-chart";
 import { DashboardRangeFilter } from "@/components/dashboard/dashboard-range-filter";
 import { getDashboardSnapshot, resolveDashboardRange } from "@/lib/dashboard";
+import { requireAuthenticatedUser } from "@/lib/supabase-auth";
 
 export const metadata: Metadata = {
   title: "Lead Operations Dashboard",
@@ -28,6 +29,7 @@ function getRangeParam(value: string | string[] | undefined) {
 }
 
 export default async function DashboardPage({ searchParams }: DashboardPageProps) {
+  const user = await requireAuthenticatedUser();
   const range = resolveDashboardRange(getRangeParam(searchParams?.range));
   const snapshot = await getDashboardSnapshot(range);
 
@@ -42,8 +44,17 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
               Track lead volume, acquisition sources, and timing patterns from Supabase without leaving the internal dashboard.
             </p>
           </div>
-
-          <DashboardRangeFilter currentRange={range} />
+          <div className="flex flex-col gap-3 sm:items-end">
+            <DashboardRangeFilter currentRange={range} />
+            <div className="flex items-center gap-3 text-sm text-slate-500">
+              <span>{user.email}</span>
+              <form action="/auth/signout" method="post">
+                <button className="font-semibold text-[#153e75] transition-colors hover:text-[#0f8a7a]" type="submit">
+                  Sign out
+                </button>
+              </form>
+            </div>
+          </div>
         </div>
 
         <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">

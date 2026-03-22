@@ -2,23 +2,35 @@ import "server-only";
 
 import { createClient } from "@supabase/supabase-js";
 
-function readRequiredSupabaseEnv(name: "SUPABASE_URL" | "SUPABASE_ANON_KEY") {
-  const value = process.env[name]?.trim();
-
-  if (!value) {
-    throw new Error(`Missing ${name} environment variable.`);
-  }
-
-  return value;
-}
-
 export function hasSupabaseConfiguration() {
   return Boolean(process.env.SUPABASE_URL?.trim() && process.env.SUPABASE_ANON_KEY?.trim());
 }
 
+export type SupabasePublicConfig = {
+  url: string;
+  anonKey: string;
+};
+
+export function getSupabasePublicConfig(): SupabasePublicConfig | null {
+  const url = process.env.SUPABASE_URL?.trim();
+  const anonKey = process.env.SUPABASE_ANON_KEY?.trim();
+
+  if (!url || !anonKey) {
+    return null;
+  }
+
+  return {
+    url,
+    anonKey,
+  };
+}
+
 export function getSupabaseClient() {
-  return createClient(
-    readRequiredSupabaseEnv("SUPABASE_URL"),
-    readRequiredSupabaseEnv("SUPABASE_ANON_KEY"),
-  );
+  const config = getSupabasePublicConfig();
+
+  if (!config) {
+    throw new Error("Missing Supabase client configuration.");
+  }
+
+  return createClient(config.url, config.anonKey);
 }

@@ -1,13 +1,14 @@
 # Valley Health and Counseling
 
-ValleyHC is a standalone marketing website for a behavioral health clinic. It is built with Next.js 14, TypeScript, Tailwind CSS, reusable shadcn-style UI primitives, and Resend-backed contact/referral submission flows designed to avoid PHI storage.
+ValleyHC is a standalone marketing website for a behavioral health clinic. It is built with Next.js 14, TypeScript, Tailwind CSS, reusable shadcn-style UI primitives, Resend-backed contact/referral submission flows, and a protected internal dashboard powered by Supabase Auth + Supabase lead data.
 
 ## Goals
 
 - Clean, professional behavioral health marketing site
 - Lead generation and referral-friendly UX
+- Protected internal operations dashboard for lead review
 - Mobile-first responsive design
-- Frontend-only forms with no PHI storage
+- Contact-only forms with no PHI storage
 - Build-ready structure for future VEHR integration
 - Vercel-friendly deployment path with domain-ready metadata and SEO primitives
 - Azure Static Web Apps-ready hybrid deployment path for the public site and App Router form endpoints
@@ -40,6 +41,9 @@ public/
 - `/contact` - non-sensitive contact request form
 - `/referrals` - non-sensitive referral form using patient initials only
 - `/insurance` - benefits and verification guidance
+- `/dashboard` - protected lead operations dashboard backed by Supabase
+- `/login` - Supabase Auth admin sign-in
+- `/set-password` - first-login password setup flow for invited admins
 
 ## Tech stack
 
@@ -50,6 +54,8 @@ public/
 - React Hook Form
 - Zod
 - Resend
+- Supabase
+- `@supabase/ssr`
 - `clsx`, `class-variance-authority`, and `tailwind-merge`
 
 ## Environment variables
@@ -59,14 +65,21 @@ Create `.env.local`:
 ```bash
 RESEND_API_KEY=
 CONTACT_EMAIL=your-email@example.com
+SUPABASE_URL=
+SUPABASE_ANON_KEY=
+SUPABASE_SERVICE_ROLE_KEY=
 ```
 
 - `RESEND_API_KEY` is your Resend API key
 - `CONTACT_EMAIL` is the inbox that should receive website contact and referral emails
-- These values are read server-side from `process.env` only
+- `SUPABASE_URL` is your Supabase project URL
+- `SUPABASE_ANON_KEY` is the client-safe Supabase publishable/anon key used for browser auth and server session validation
+- `SUPABASE_SERVICE_ROLE_KEY` is required only on the server for the admin invite script
+- All values are sourced from `process.env`
 - Do not use `NEXT_PUBLIC_RESEND_API_KEY` or `NEXT_PUBLIC_CONTACT_EMAIL`
-- They are used only in route handlers and server-only helpers, so they are not exposed to the browser bundle
+- The service role key is server-only and must never be exposed in the browser bundle
 - If either value is missing, the form routes fail safely with a generic temporary-unavailable response instead of exposing configuration details
+- Copy `.env.example` to `.env.local` if you want a starter template
 
 ## Local development
 
@@ -93,7 +106,7 @@ The production build output is written to `.next`.
 
 - Contact and referral forms submit to internal Next.js route handlers
 - Submissions are validated with Zod on both client and server
-- The current implementation does not persist PHI or write submissions to a database
+- Contact leads can be written to Supabase without storing PHI-heavy intake data
 - Server-side logging is limited to safe submission metadata only
 - Referral requests explicitly warn users not to include protected health information
 - Referral form allows patient initials only
@@ -103,7 +116,33 @@ The production build output is written to `.next`.
 - `POST /api/contact`
 - `POST /api/referral`
 
-These endpoints validate submissions with Zod, apply a basic in-memory rate limit, sanitize inbound text, and send emails through Resend without writing to a database.
+These endpoints validate submissions with Zod, apply a basic in-memory rate limit, sanitize inbound text, and send emails through Resend. Contact submissions can also write lead metadata to Supabase.
+
+## Admin provisioning
+
+Use the built-in invite script to provision the ValleyHC admin account in Supabase Auth and send the setup email through Resend:
+
+```bash
+node scripts/invite-admin.ts
+```
+
+Or with npm:
+
+```bash
+npm run invite-admin
+```
+
+The script:
+
+1. Creates or refreshes an invite link for `T.Rapp@valleyhc.org`
+2. Targets the password setup flow at `https://crm.valleyhc.org/set-password`
+3. Sends the invite email through Resend
+
+The admin password setup flow is handled in-app:
+
+- `/login` authenticates the admin with Supabase Auth
+- `/set-password` lets the invited admin choose a password on first use
+- `/dashboard` is protected by Supabase cookie-session validation
 
 ## Vercel deployment
 
@@ -166,6 +205,9 @@ Add these application settings in Azure Static Web Apps after the site is create
 ```text
 RESEND_API_KEY
 CONTACT_EMAIL
+SUPABASE_URL
+SUPABASE_ANON_KEY
+SUPABASE_SERVICE_ROLE_KEY
 ```
 
 In the Azure portal:
@@ -174,9 +216,12 @@ In the Azure portal:
 2. Go to `Environment variables`
 3. Add `RESEND_API_KEY`
 4. Add `CONTACT_EMAIL`
-5. Save the settings and redeploy the site
+5. Add `SUPABASE_URL`
+6. Add `SUPABASE_ANON_KEY`
+7. Add `SUPABASE_SERVICE_ROLE_KEY`
+8. Save the settings and redeploy the site
 
-After the variables are added, verify the public pages plus `/api/contact` and `/api/referral`.
+After the variables are added, verify the public pages, `/api/contact`, `/api/referral`, `/login`, `/set-password`, and `/dashboard`.
 
 ## MCP project config
 
