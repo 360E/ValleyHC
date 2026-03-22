@@ -6,18 +6,18 @@ export function TestimonialsSection() {
   return (
     <Section
       eyebrow="Stories and trust"
-      title="Testimonial section ready for approved marketing content"
-      description="The layout is production-ready now, while the copy stays transparent until real, approved stories are available."
+      title="Approved testimonials can be added here"
+      description="This space is reserved for patient, family, or referral-partner feedback once final content is available."
       contentClassName="grid gap-6 lg:grid-cols-3"
     >
-      {testimonialPlaceholders.map((item, index) => (
-        <Card key={item.title} className={index === 1 ? "animate-fade-up animate-delay-150" : "animate-fade-up"}>
+      {testimonialPlaceholders.map((item) => (
+        <Card key={item.title}>
           <CardHeader>
-            <p className="text-5xl font-semibold leading-none text-[var(--border-strong)]">“</p>
+            <p className="text-4xl font-semibold leading-none text-[var(--border-strong)]">&ldquo;</p>
             <CardTitle>{item.title}</CardTitle>
             <CardDescription>Placeholder</CardDescription>
           </CardHeader>
-          <CardContent className="text-sm leading-6 text-[var(--text-muted)]">{item.quote}</CardContent>
+          <CardContent className="text-base leading-7 text-[var(--text-muted)]">{item.quote}</CardContent>
         </Card>
       ))}
     </Section>

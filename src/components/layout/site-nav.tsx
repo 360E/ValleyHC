@@ -1,15 +1,18 @@
 "use client";
 
 import Link from "next/link";
-import { Menu, Phone, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 
-import { buttonVariants } from "@/components/ui/button";
+import TrackedPhoneLink from "@/components/TrackedPhoneLink";
 import { navigationItems, siteConfig } from "@/lib/marketing";
 import { cn } from "@/lib/utils";
 
 import { SiteLogo } from "./site-logo";
+
+const callHref = siteConfig.phoneHref;
+const callLabel = `Call ${siteConfig.phoneDisplay}`;
 
 function isActivePath(pathname: string, href: string) {
   if (href === "/") {
@@ -19,17 +22,17 @@ function isActivePath(pathname: string, href: string) {
   return pathname.startsWith(href);
 }
 
-export function SiteNav() {
+export function Header() {
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-white/70 bg-white/80 backdrop-blur-xl">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <div className="flex items-center justify-between gap-4 py-4">
+    <header className="sticky top-0 z-50 border-b border-[var(--border)] bg-white/90 backdrop-blur-xl">
+      <div className="mx-auto max-w-[1100px] px-4 sm:px-6">
+        <div className="flex items-center justify-between gap-3 py-4">
           <SiteLogo />
 
-          <nav className="hidden items-center gap-2 lg:flex" aria-label="Primary navigation">
+          <nav className="hidden items-center justify-center gap-1 lg:flex" aria-label="Primary navigation">
             {navigationItems.map((item) => {
               const isActive = isActivePath(pathname, item.href);
 
@@ -40,8 +43,8 @@ export function SiteNav() {
                   className={cn(
                     "rounded-full px-4 py-2 text-sm font-medium transition",
                     isActive
-                      ? "bg-[var(--surface-muted)] text-[var(--primary)]"
-                      : "text-[var(--text-muted)] hover:bg-white hover:text-[var(--primary)]",
+                      ? "bg-slate-100 text-[var(--primary)]"
+                      : "text-[var(--text-muted)] hover:text-[var(--primary)]",
                   )}
                 >
                   {item.label}
@@ -50,28 +53,26 @@ export function SiteNav() {
             })}
           </nav>
 
-          <div className="hidden items-center gap-3 lg:flex">
-            <Link
-              href={siteConfig.phoneHref}
-              className="inline-flex items-center gap-2 rounded-full border border-[var(--border)] px-4 py-2 text-sm font-medium text-[var(--primary)] transition hover:border-[var(--primary)] hover:bg-white"
+          <div className="ml-auto flex items-center gap-2 lg:ml-0">
+            <TrackedPhoneLink
+              href={callHref}
+              label="call_click"
+              className="inline-flex min-h-11 items-center justify-center rounded-full bg-[var(--primary)] px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[var(--primary-strong)]"
             >
-              <Phone className="h-4 w-4" />
-              {siteConfig.phoneDisplay}
-            </Link>
-            <Link href="/contact" className={buttonVariants({ variant: "accent", size: "default" })}>
-              Get Help Today
-            </Link>
-          </div>
+              <span className="hidden sm:inline">{callLabel}</span>
+              <span className="sm:hidden">Call Now</span>
+            </TrackedPhoneLink>
 
-          <button
-            type="button"
-            onClick={() => setIsMenuOpen((currentValue) => !currentValue)}
-            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[var(--border)] bg-white text-[var(--primary)] lg:hidden"
-            aria-expanded={isMenuOpen}
-            aria-label={isMenuOpen ? "Close navigation menu" : "Open navigation menu"}
-          >
-            {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </button>
+            <button
+              type="button"
+              onClick={() => setIsMenuOpen((currentValue) => !currentValue)}
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[var(--border)] bg-white text-[var(--primary)] lg:hidden"
+              aria-expanded={isMenuOpen}
+              aria-label={isMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+            >
+              {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </button>
+          </div>
         </div>
 
         {isMenuOpen ? (
@@ -86,9 +87,9 @@ export function SiteNav() {
                     href={item.href}
                     onClick={() => setIsMenuOpen(false)}
                     className={cn(
-                      "rounded-2xl px-4 py-3 text-sm font-medium transition",
+                      "rounded-xl px-4 py-3 text-sm font-medium transition",
                       isActive
-                        ? "bg-[var(--surface-muted)] text-[var(--primary)]"
+                        ? "bg-slate-100 text-[var(--primary)]"
                         : "text-[var(--site-foreground)] hover:bg-white",
                     )}
                   >
@@ -97,22 +98,11 @@ export function SiteNav() {
                 );
               })}
             </nav>
-
-            <div className="grid gap-3 pt-2">
-              <Link href="/contact" onClick={() => setIsMenuOpen(false)} className={buttonVariants({ variant: "accent" })}>
-                Get Help Today
-              </Link>
-              <Link
-                href={siteConfig.phoneHref}
-                onClick={() => setIsMenuOpen(false)}
-                className={buttonVariants({ variant: "secondary" })}
-              >
-                Call {siteConfig.phoneDisplay}
-              </Link>
-            </div>
           </div>
         ) : null}
       </div>
     </header>
   );
 }
+
+export { Header as SiteNav };

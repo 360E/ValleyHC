@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import TrackedPhoneLink from "@/components/TrackedPhoneLink";
 import { ContactForm } from "@/components/sections/contact-form";
 import { FinalCtaSection } from "@/components/sections/final-cta-section";
 import { PageHero } from "@/components/sections/page-hero";
@@ -22,9 +23,9 @@ export default function ContactPage() {
         description="Use the contact request form for simple outreach only. Please do not send protected health information through this website."
         actions={
           <>
-            <a href={siteConfig.phoneHref} className={buttonVariants({ variant: "accent", size: "lg" })}>
+            <TrackedPhoneLink href={siteConfig.phoneHref} label="call_click" className={buttonVariants({ variant: "accent", size: "lg" })}>
               Call {siteConfig.phoneDisplay}
-            </a>
+            </TrackedPhoneLink>
             <Link href="/referrals" className={buttonVariants({ variant: "secondary", size: "lg" })}>
               Refer a Patient
             </Link>
@@ -67,9 +68,9 @@ export default function ContactPage() {
             <CardContent className="space-y-4 text-sm leading-6 text-[var(--text-muted)]">
               <div>
                 <p className="font-semibold text-[var(--site-foreground)]">Phone</p>
-                <a href={siteConfig.phoneHref} className="transition hover:text-[var(--primary)]">
+                <TrackedPhoneLink href={siteConfig.phoneHref} label="call_click" className="transition hover:text-[var(--primary)]">
                   {siteConfig.phoneDisplay}
-                </a>
+                </TrackedPhoneLink>
               </div>
               <div>
                 <p className="font-semibold text-[var(--site-foreground)]">Email</p>
@@ -100,10 +101,10 @@ export default function ContactPage() {
       <FinalCtaSection
         title="Need help verifying fit or benefits?"
         description="Our team can help you understand services, intake flow, and insurance verification before scheduling."
-        primaryHref="/insurance"
-        primaryLabel="Review Insurance Info"
-        secondaryHref="/services"
-        secondaryLabel="Explore Services"
+        primaryHref={siteConfig.phoneHref}
+        primaryLabel={`Call ${siteConfig.phoneDisplay}`}
+        secondaryHref="/insurance"
+        secondaryLabel="Review Insurance Info"
       />
     </>
   );

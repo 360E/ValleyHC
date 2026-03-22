@@ -4,6 +4,7 @@ import { HeroSection } from "@/components/sections/hero-section";
 import { HowItWorksSection } from "@/components/sections/how-it-works-section";
 import { ServicesSection } from "@/components/sections/services-preview-section";
 import { TestimonialsSection } from "@/components/sections/testimonials-section";
+import { TrustSection } from "@/components/sections/trust-section";
 import { WhyChooseUsSection } from "@/components/sections/why-choose-us-section";
 import { buildPageMetadata } from "@/lib/marketing";
 
@@ -18,6 +19,7 @@ export default function Home() {
       <HeroSection />
       <ServicesSection />
       <ConversionStrip />
+      <TrustSection />
       <WhyChooseUsSection />
       <HowItWorksSection />
       <TestimonialsSection />

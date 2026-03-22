@@ -60,13 +60,13 @@ export default function AboutPage() {
         </Card>
 
         <Card className="animate-fade-up animate-delay-150 overflow-hidden">
-          <div className="rounded-[1.5rem] bg-brand-mesh p-4">
+          <div className="rounded-xl bg-brand-mesh p-4">
             <Image
               src="/valleyhc-hero.svg"
               alt="Abstract illustration representing compassionate behavioral health support."
               width={960}
               height={720}
-              className="h-auto w-full rounded-[1.25rem]"
+              className="h-auto w-full rounded-xl"
             />
           </div>
         </Card>

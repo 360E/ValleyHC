@@ -9,7 +9,7 @@ type SiteLogoProps = {
 export function SiteLogo({ className }: SiteLogoProps) {
   return (
     <Link href="/" className={cn("flex items-center gap-3", className)}>
-      <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[var(--primary)] text-lg font-black text-white shadow-[0_16px_32px_-18px_rgba(21,62,117,0.95)]">
+      <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-[var(--primary)] text-lg font-black text-white">
         V
       </span>
       <span className="hidden sm:block">

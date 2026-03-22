@@ -1,13 +1,14 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 
 import { Button } from "@/components/ui/button";
 import { FormField } from "@/components/ui/form-field";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { trackEvent, trackFormSubmit } from "@/lib/analytics";
 import { contactRequestSchema, type ContactRequestValues } from "@/lib/marketing-forms";
 
 type SubmissionResponse = {
@@ -34,6 +35,10 @@ export function ContactForm() {
     },
   });
 
+  useEffect(() => {
+    trackEvent("contact_page_view", "contact_page");
+  }, []);
+
   async function onSubmit(values: ContactRequestValues) {
     setSubmissionMessage(null);
     setSubmissionError(null);
@@ -51,31 +56,34 @@ export function ContactForm() {
 
       if (!response.ok) {
         setSubmissionError(payload?.error ?? "We could not send your request right now. Please call the clinic instead.");
+        trackFormSubmit("contact_form", false);
         return;
       }
 
       setSubmissionMessage(payload?.message ?? "Message sent successfully");
       reset();
+      trackFormSubmit("contact_form", true);
     } catch {
       setSubmissionError("We could not send your request right now. Please call the clinic instead.");
+      trackFormSubmit("contact_form", false);
     }
   }
 
   return (
     <div className="space-y-6">
       {submissionMessage ? (
-        <div className="rounded-[1.5rem] border border-emerald-200 bg-emerald-50 px-5 py-4 text-sm leading-6 text-emerald-900">
+        <div className="rounded-xl border border-[var(--border)] bg-white p-6 text-base leading-7 text-[var(--site-foreground)]">
           {submissionMessage}
         </div>
       ) : null}
 
       {submissionError ? (
-        <div className="rounded-[1.5rem] border border-rose-200 bg-rose-50 px-5 py-4 text-sm leading-6 text-rose-900">
+        <div className="rounded-xl border border-[var(--border)] bg-white p-6 text-base leading-7 text-[var(--site-foreground)]">
           {submissionError}
         </div>
       ) : null}
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-5" noValidate>
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6" noValidate>
         <FormField htmlFor="contact-name" label="Name" error={errors.name?.message} required>
           <Controller
             name="name"
@@ -92,7 +100,7 @@ export function ContactForm() {
           />
         </FormField>
 
-        <div className="grid gap-5 md:grid-cols-2">
+        <div className="grid gap-6 md:grid-cols-2">
           <FormField htmlFor="contact-phone" label="Phone" error={errors.phone?.message} required>
             <Controller
               name="phone"
@@ -149,7 +157,7 @@ export function ContactForm() {
           />
         </FormField>
 
-        <p className="rounded-2xl border border-[var(--border)] bg-white/80 px-4 py-3 text-sm leading-6 text-[var(--text-muted)]">
+        <p className="rounded-xl border border-[var(--border)] bg-white p-6 text-base leading-7 text-[var(--text-muted)]">
           Please do not include sensitive personal or medical information in this form.
         </p>
 

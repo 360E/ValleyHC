@@ -40,10 +40,10 @@ export type ServiceDetail = ServicePreview & {
 export const siteConfig = {
   name: "Valley Health and Counseling",
   shortName: "ValleyHC",
-  phoneDisplay: "(509) 555-0148",
-  phoneHref: "tel:+15095550148",
-  emailDisplay: "hello@valleyhc.example",
-  emailHref: "mailto:hello@valleyhc.example",
+  phoneDisplay: "(509) 452-1000",
+  phoneHref: "tel:+15094521000",
+  emailDisplay: "onboarding@resend.dev",
+  emailHref: "mailto:onboarding@resend.dev",
   location: "Yakima, WA",
   hours: [
     { label: "Monday - Thursday", value: "8:00 AM - 6:00 PM" },
@@ -62,7 +62,6 @@ export const navigationItems: NavigationItem[] = [
 
 export const footerLinks: NavigationItem[] = [
   ...navigationItems,
-  { href: "/insurance", label: "Insurance" },
 ];
 
 export const heroHighlights = [

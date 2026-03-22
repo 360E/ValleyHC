@@ -65,24 +65,24 @@ export function ReferralForm() {
 
   return (
     <div className="space-y-6">
-      <div className="rounded-[1.5rem] border border-amber-200 bg-amber-50 px-5 py-4 text-sm leading-6 text-amber-950">
+      <div className="rounded-xl border border-[var(--border)] bg-white p-6 text-base leading-7 text-[var(--site-foreground)]">
         Do not include protected health information. Use patient initials only and keep notes general and non-sensitive.
       </div>
 
       {submissionMessage ? (
-        <div className="rounded-[1.5rem] border border-emerald-200 bg-emerald-50 px-5 py-4 text-sm leading-6 text-emerald-900">
+        <div className="rounded-xl border border-[var(--border)] bg-white p-6 text-base leading-7 text-[var(--site-foreground)]">
           {submissionMessage}
         </div>
       ) : null}
 
       {submissionError ? (
-        <div className="rounded-[1.5rem] border border-rose-200 bg-rose-50 px-5 py-4 text-sm leading-6 text-rose-900">
+        <div className="rounded-xl border border-[var(--border)] bg-white p-6 text-base leading-7 text-[var(--site-foreground)]">
           {submissionError}
         </div>
       ) : null}
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-5" noValidate>
-        <div className="grid gap-5 md:grid-cols-2">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6" noValidate>
+        <div className="grid gap-6 md:grid-cols-2">
           <FormField htmlFor="referral-name" label="Referrer name" error={errors.referrerName?.message} required>
             <Input id="referral-name" autoComplete="name" placeholder="Referrer name" aria-invalid={Boolean(errors.referrerName)} {...register("referrerName")} />
           </FormField>
@@ -98,7 +98,7 @@ export function ReferralForm() {
           </FormField>
         </div>
 
-        <div className="grid gap-5 md:grid-cols-2">
+        <div className="grid gap-6 md:grid-cols-2">
           <FormField htmlFor="referral-phone" label="Phone" error={errors.phone?.message} required>
             <Input
               id="referral-phone"
@@ -152,7 +152,7 @@ export function ReferralForm() {
           />
         </FormField>
 
-        <p className="rounded-2xl border border-[var(--border)] bg-white/80 px-4 py-3 text-sm leading-6 text-[var(--text-muted)]">
+        <p className="rounded-xl border border-[var(--border)] bg-white p-6 text-base leading-7 text-[var(--text-muted)]">
           Please do not include sensitive personal or medical information in this form.
         </p>
 

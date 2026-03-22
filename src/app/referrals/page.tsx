@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import TrackedPhoneLink from "@/components/TrackedPhoneLink";
 import { FinalCtaSection } from "@/components/sections/final-cta-section";
 import { PageHero } from "@/components/sections/page-hero";
 import { ReferralForm } from "@/components/sections/referral-form";
@@ -31,9 +32,9 @@ export default function ReferralsPage() {
             <Link href="/contact" className={buttonVariants({ variant: "accent", size: "lg" })}>
               Contact Admissions
             </Link>
-            <a href={siteConfig.phoneHref} className={buttonVariants({ variant: "secondary", size: "lg" })}>
+            <TrackedPhoneLink href={siteConfig.phoneHref} label="call_click" className={buttonVariants({ variant: "secondary", size: "lg" })}>
               Call {siteConfig.phoneDisplay}
-            </a>
+            </TrackedPhoneLink>
           </>
         }
         aside={

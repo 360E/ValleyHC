@@ -1,7 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 
+import AnalyticsTracker from "@/components/analytics-tracker";
 import { SiteShell } from "@/components/layout/site-shell";
+import { GA_ID } from "@/lib/analytics";
 import { siteConfig } from "@/lib/marketing";
 import { getSiteUrl } from "@/lib/site-url";
 
@@ -38,7 +40,26 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        {GA_ID ? (
+          <>
+            <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`} />
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `
+                  window.dataLayer = window.dataLayer || [];
+                  function gtag(){dataLayer.push(arguments);}
+                  window.gtag = gtag;
+                  gtag('js', new Date());
+                  gtag('config', '${GA_ID}');
+                `,
+              }}
+            />
+          </>
+        ) : null}
+      </head>
       <body className={`${inter.className} bg-[var(--site-background)] text-[var(--site-foreground)] antialiased`}>
+        {GA_ID ? <AnalyticsTracker /> : null}
         <SiteShell>{children}</SiteShell>
       </body>
     </html>

@@ -13,21 +13,21 @@ type PageHeroProps = {
 
 export function PageHero({ eyebrow, title, description, actions, aside, className }: PageHeroProps) {
   return (
-    <section className={cn("px-4 pt-12 sm:px-6 lg:pt-16", className)}>
-      <div className="mx-auto grid max-w-6xl gap-10 rounded-[2rem] border border-white/70 bg-brand-mesh px-6 py-10 shadow-[var(--shadow-soft)] md:px-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-center lg:px-12 lg:py-14">
+    <section className={cn("px-4 py-24 sm:px-6", className)}>
+      <div className="mx-auto grid max-w-[1100px] gap-8 rounded-2xl border border-[var(--border)] bg-brand-mesh px-8 py-12 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
         <div className="space-y-6">
-          <p className="text-sm font-semibold uppercase tracking-[0.24em] text-[var(--accent)]">{eyebrow}</p>
-          <div className="space-y-4">
-            <h1 className="text-balance text-4xl font-semibold tracking-tight text-[var(--site-foreground)] md:text-5xl">
+          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[var(--accent)]">{eyebrow}</p>
+          <div className="space-y-6">
+            <h1 className="text-balance text-4xl font-semibold tracking-tight text-[var(--site-foreground)]">
               {title}
             </h1>
-            <p className="text-pretty max-w-2xl text-base leading-7 text-[var(--text-muted)] md:text-lg">{description}</p>
+            <p className="text-pretty max-w-xl text-base leading-8 text-[var(--text-muted)] md:text-lg">{description}</p>
           </div>
           {actions ? <div className="flex flex-wrap gap-3">{actions}</div> : null}
         </div>
 
         {aside ? (
-          <div className="rounded-[1.75rem] border border-white/80 bg-white/80 p-6 shadow-[0_24px_60px_-32px_rgba(21,62,117,0.28)]">
+          <div className="rounded-xl border border-[var(--border)] bg-white p-6 shadow-[var(--shadow-soft)]">
             {aside}
           </div>
         ) : null}

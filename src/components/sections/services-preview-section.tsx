@@ -19,14 +19,14 @@ const services = [
 
 export function ServicesSection() {
   return (
-    <section className="px-4 py-20 sm:px-6">
+    <section className="px-4 py-24 sm:px-6">
       <div className="mx-auto max-w-[1100px] space-y-8">
         <div className="mx-auto max-w-2xl space-y-4 text-center">
           <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[var(--accent)]">SERVICES</p>
           <h2 className="text-3xl font-semibold tracking-tight text-[var(--site-foreground)] md:text-4xl">
             Support for Mental Health, Addiction, and Primary Care
           </h2>
-          <p className="text-base leading-7 text-[var(--text-muted)] md:text-lg">
+          <p className="text-base leading-8 text-[var(--text-muted)] md:text-lg">
             Simple access to care. Local providers. Clear next steps.
           </p>
         </div>
@@ -35,11 +35,11 @@ export function ServicesSection() {
           {services.map((service) => (
             <div
               key={service.title}
-              className="rounded-xl border border-[var(--border)] bg-white p-6 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-[var(--accent)]"
+              className="rounded-xl border border-[var(--border)] bg-white p-6 shadow-[var(--shadow-soft)] transition-colors duration-200 hover:border-[var(--border-strong)]"
             >
               <div className="space-y-3">
                 <h3 className="text-lg font-semibold text-[var(--site-foreground)]">{service.title}</h3>
-                <p className="text-sm leading-6 text-[var(--text-muted)]">{service.text}</p>
+                <p className="text-base leading-7 text-[var(--text-muted)]">{service.text}</p>
               </div>
             </div>
           ))}

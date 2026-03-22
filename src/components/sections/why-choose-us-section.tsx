@@ -6,17 +6,17 @@ export function WhyChooseUsSection() {
   return (
     <Section
       eyebrow="Why choose us"
-      title="Professional care that still feels human"
-      description="The design language stays clean and healthcare-credible while the content reinforces speed, trust, and community connection."
+      title="Professional care with clear next steps"
+      description="A calm, local approach to getting connected with the support you need."
       contentClassName="grid gap-6 md:grid-cols-2"
     >
-      {valueProps.map((item, index) => {
+      {valueProps.map((item) => {
         const Icon = item.icon;
 
         return (
-          <Card key={item.title} className={index % 2 === 1 ? "animate-fade-up animate-delay-150" : "animate-fade-up"}>
+          <Card key={item.title}>
             <CardHeader className="space-y-4">
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--surface-muted)] text-[var(--primary)]">
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[var(--surface-muted)] text-[var(--primary)]">
                 <Icon className="h-6 w-6" />
               </div>
               <CardTitle>{item.title}</CardTitle>
