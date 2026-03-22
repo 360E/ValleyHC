@@ -3,6 +3,7 @@ import "server-only";
 import { resend } from "./resend.ts";
 
 const ADMIN_EMAIL = "T.Rapp@valleyhc.org";
+const SENDER_EMAIL = "noreply@360.encompass.com";
 
 function escapeHtml(value: string) {
   return value
@@ -15,7 +16,7 @@ function escapeHtml(value: string) {
 
 export async function sendInviteEmail(link: string) {
   await resend.emails.send({
-    from: "admin@valleyhc.org",
+    from: SENDER_EMAIL,
     to: ADMIN_EMAIL,
     subject: "Set up your Valley Health CRM access",
     html: `

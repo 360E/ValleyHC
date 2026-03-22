@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState, type FormEvent } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { createBrowserClient } from "@supabase/ssr";
 
 import { Button } from "@/components/ui/button";
@@ -14,6 +14,7 @@ type SetPasswordFormProps = {
 
 export function SetPasswordForm({ supabaseUrl, supabaseAnonKey }: SetPasswordFormProps) {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [inviteEmail, setInviteEmail] = useState<string | null>(null);
@@ -26,8 +27,54 @@ export function SetPasswordForm({ supabaseUrl, supabaseAnonKey }: SetPasswordFor
   useEffect(() => {
     let isMounted = true;
 
+    async function exchangeInviteSession() {
+      const code = searchParams.get("code");
+      const tokenHash = searchParams.get("token_hash");
+      const type = searchParams.get("type");
+
+      if (code) {
+        const { error } = await supabase.auth.exchangeCodeForSession(code);
+
+        if (error) {
+          throw error;
+        }
+
+        return;
+      }
+
+      if (tokenHash && type) {
+        const { error } = await supabase.auth.verifyOtp({
+          token_hash: tokenHash,
+          type: type as "invite" | "recovery",
+        });
+
+        if (error) {
+          throw error;
+        }
+      }
+    }
+
     async function loadInviteSession() {
       try {
+        await exchangeInviteSession();
+
+        const hashParams = new URLSearchParams(window.location.hash.replace(/^#/, ""));
+        const accessToken = hashParams.get("access_token");
+        const refreshToken = hashParams.get("refresh_token");
+
+        if (accessToken && refreshToken) {
+          const { error } = await supabase.auth.setSession({
+            access_token: accessToken,
+            refresh_token: refreshToken,
+          });
+
+          if (error) {
+            throw error;
+          }
+
+          window.history.replaceState(null, "", window.location.pathname + window.location.search);
+        }
+
         const {
           data: { user },
           error,
@@ -75,7 +122,7 @@ export function SetPasswordForm({ supabaseUrl, supabaseAnonKey }: SetPasswordFor
       isMounted = false;
       subscription.unsubscribe();
     };
-  }, [supabase]);
+  }, [searchParams, supabase]);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();

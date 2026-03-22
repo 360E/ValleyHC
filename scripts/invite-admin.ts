@@ -6,6 +6,7 @@ const { loadEnvConfig } = nextEnv;
 loadEnvConfig(process.cwd());
 
 const ADMIN_EMAIL = "T.Rapp@valleyhc.org";
+const SENDER_EMAIL = "noreply@360.encompass.com";
 
 function readRequiredEnv(
   name: "SUPABASE_URL" | "SUPABASE_SERVICE_ROLE_KEY" | "RESEND_API_KEY" | "SITE_URL" | "SET_PASSWORD_URL",
@@ -99,7 +100,7 @@ async function sendInviteEmail(link: string) {
   const resend = new Resend(readRequiredEnv("RESEND_API_KEY"));
 
   await resend.emails.send({
-    from: "admin@valleyhc.org",
+    from: SENDER_EMAIL,
     to: ADMIN_EMAIL,
     subject: "Set up your Valley Health CRM access",
     html: `
