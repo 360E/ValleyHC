@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 
 import { Button } from "@/components/ui/button";
 import { FormField } from "@/components/ui/form-field";
@@ -20,7 +20,7 @@ export function ContactForm() {
   const [submissionMessage, setSubmissionMessage] = useState<string | null>(null);
   const [submissionError, setSubmissionError] = useState<string | null>(null);
   const {
-    register,
+    control,
     handleSubmit,
     reset,
     formState: { errors, isSubmitting },
@@ -77,35 +77,53 @@ export function ContactForm() {
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5" noValidate>
         <FormField htmlFor="contact-name" label="Name" error={errors.name?.message} required>
-          <Input
-            id="contact-name"
-            autoComplete="name"
-            placeholder="Your name"
-            aria-invalid={Boolean(errors.name)}
-            {...register("name")}
+          <Controller
+            name="name"
+            control={control}
+            render={({ field }) => (
+              <Input
+                {...field}
+                id="contact-name"
+                autoComplete="name"
+                placeholder="Your name"
+                aria-invalid={Boolean(errors.name)}
+              />
+            )}
           />
         </FormField>
 
         <div className="grid gap-5 md:grid-cols-2">
           <FormField htmlFor="contact-phone" label="Phone" error={errors.phone?.message} required>
-            <Input
-              id="contact-phone"
-              type="tel"
-              autoComplete="tel"
-              placeholder="(509) 555-0148"
-              aria-invalid={Boolean(errors.phone)}
-              {...register("phone")}
+            <Controller
+              name="phone"
+              control={control}
+              render={({ field }) => (
+                <Input
+                  {...field}
+                  id="contact-phone"
+                  type="tel"
+                  autoComplete="tel"
+                  placeholder="(509) 555-0148"
+                  aria-invalid={Boolean(errors.phone)}
+                />
+              )}
             />
           </FormField>
 
           <FormField htmlFor="contact-email" label="Email" error={errors.email?.message} required>
-            <Input
-              id="contact-email"
-              type="email"
-              autoComplete="email"
-              placeholder="hello@example.com"
-              aria-invalid={Boolean(errors.email)}
-              {...register("email")}
+            <Controller
+              name="email"
+              control={control}
+              render={({ field }) => (
+                <Input
+                  {...field}
+                  id="contact-email"
+                  type="email"
+                  autoComplete="email"
+                  placeholder="hello@example.com"
+                  aria-invalid={Boolean(errors.email)}
+                />
+              )}
             />
           </FormField>
         </div>
@@ -117,11 +135,17 @@ export function ContactForm() {
           error={errors.message?.message}
           required
         >
-          <Textarea
-            id="contact-message"
-            placeholder="Tell us how we can help."
-            aria-invalid={Boolean(errors.message)}
-            {...register("message")}
+          <Controller
+            name="message"
+            control={control}
+            render={({ field }) => (
+              <Textarea
+                {...field}
+                id="contact-message"
+                placeholder="Tell us how we can help."
+                aria-invalid={Boolean(errors.message)}
+              />
+            )}
           />
         </FormField>
 
