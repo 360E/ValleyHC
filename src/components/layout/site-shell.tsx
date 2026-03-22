@@ -13,7 +13,7 @@ type SiteShellProps = {
 export function SiteShell({ children }: SiteShellProps) {
   const pathname = usePathname();
   const isDashboardRoute = pathname.startsWith("/dashboard");
-  const isAuthRoute = pathname.startsWith("/login") || pathname.startsWith("/set-password");
+  const isAuthRoute = pathname.startsWith("/login") || pathname.startsWith("/set-password") || pathname.startsWith("/analytics");
 
   if (isDashboardRoute || isAuthRoute) {
     return <main>{children}</main>;

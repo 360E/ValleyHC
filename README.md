@@ -65,6 +65,8 @@ Create `.env.local`:
 ```bash
 RESEND_API_KEY=
 CONTACT_EMAIL=your-email@example.com
+SITE_URL=
+SET_PASSWORD_URL=
 SUPABASE_URL=
 SUPABASE_ANON_KEY=
 SUPABASE_SERVICE_ROLE_KEY=
@@ -72,6 +74,8 @@ SUPABASE_SERVICE_ROLE_KEY=
 
 - `RESEND_API_KEY` is your Resend API key
 - `CONTACT_EMAIL` is the inbox that should receive website contact and referral emails
+- `SITE_URL` is the fully-qualified public app URL used for metadata, sitemap generation, and auth email redirects
+- `SET_PASSWORD_URL` optionally overrides the invite redirect target if you want a less-obvious auth entry path such as `/analytics/set-password`
 - `SUPABASE_URL` is your Supabase project URL
 - `SUPABASE_ANON_KEY` is the client-safe Supabase publishable/anon key used for browser auth and server session validation
 - `SUPABASE_SERVICE_ROLE_KEY` is required only on the server for the admin invite script
@@ -135,7 +139,7 @@ npm run invite-admin
 The script:
 
 1. Creates or refreshes an invite link for `T.Rapp@valleyhc.org`
-2. Targets the password setup flow at `https://crm.valleyhc.org/set-password`
+2. Targets `SET_PASSWORD_URL` when provided, otherwise defaults to `${SITE_URL}/set-password`
 3. Sends the invite email through Resend
 
 The admin password setup flow is handled in-app:
@@ -205,6 +209,7 @@ Add these application settings in Azure Static Web Apps after the site is create
 ```text
 RESEND_API_KEY
 CONTACT_EMAIL
+SITE_URL
 SUPABASE_URL
 SUPABASE_ANON_KEY
 SUPABASE_SERVICE_ROLE_KEY
@@ -216,10 +221,11 @@ In the Azure portal:
 2. Go to `Environment variables`
 3. Add `RESEND_API_KEY`
 4. Add `CONTACT_EMAIL`
-5. Add `SUPABASE_URL`
-6. Add `SUPABASE_ANON_KEY`
-7. Add `SUPABASE_SERVICE_ROLE_KEY`
-8. Save the settings and redeploy the site
+5. Add `SITE_URL`
+6. Add `SUPABASE_URL`
+7. Add `SUPABASE_ANON_KEY`
+8. Add `SUPABASE_SERVICE_ROLE_KEY`
+9. Save the settings and redeploy the site
 
 After the variables are added, verify the public pages, `/api/contact`, `/api/referral`, `/login`, `/set-password`, and `/dashboard`.
 

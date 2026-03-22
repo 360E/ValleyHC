@@ -6,9 +6,10 @@ const { loadEnvConfig } = nextEnv;
 loadEnvConfig(process.cwd());
 
 const ADMIN_EMAIL = "T.Rapp@valleyhc.org";
-const SET_PASSWORD_URL = "https://crm.valleyhc.org/set-password";
 
-function readRequiredEnv(name: "SUPABASE_URL" | "SUPABASE_SERVICE_ROLE_KEY" | "RESEND_API_KEY") {
+function readRequiredEnv(
+  name: "SUPABASE_URL" | "SUPABASE_SERVICE_ROLE_KEY" | "RESEND_API_KEY" | "SITE_URL" | "SET_PASSWORD_URL",
+) {
   const value = process.env[name]?.trim();
 
   if (!value) {
@@ -16,6 +17,10 @@ function readRequiredEnv(name: "SUPABASE_URL" | "SUPABASE_SERVICE_ROLE_KEY" | "R
   }
 
   return value;
+}
+
+function getSetPasswordUrl() {
+  return process.env.SET_PASSWORD_URL?.trim() || new URL("/set-password", readRequiredEnv("SITE_URL")).toString();
 }
 
 function escapeHtml(value: string) {
@@ -43,7 +48,7 @@ async function createInviteLink() {
     type: "invite",
     email: ADMIN_EMAIL,
     options: {
-      redirectTo: SET_PASSWORD_URL,
+      redirectTo: getSetPasswordUrl(),
     },
   });
 
@@ -58,7 +63,7 @@ async function createInviteLink() {
       type: "recovery",
       email: ADMIN_EMAIL,
       options: {
-        redirectTo: SET_PASSWORD_URL,
+        redirectTo: getSetPasswordUrl(),
       },
     });
 
