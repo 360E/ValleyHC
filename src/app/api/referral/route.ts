@@ -6,7 +6,7 @@ import {
 } from "@/lib/submission-helpers";
 import { enforceRateLimit, getRateLimitKey } from "@/lib/contact-rate-limit";
 import { parseReferralSubmission } from "@/lib/contact-submission";
-import { sendContactEmail } from "@/lib/resend-email";
+import { buildEmailHtml, sendContactEmail } from "@/lib/resend-email";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -43,6 +43,18 @@ export async function POST(request: Request) {
     await sendContactEmail({
       subject: `New ValleyHC referral request: ${values.referrerName}`,
       replyTo: values.email,
+      html: buildEmailHtml({
+        intro: "A new referral request was submitted through the Valley Health and Counseling website. Do not include protected health information.",
+        fields: [
+          { label: "Submission ID", value: submissionId },
+          { label: "Referrer Name", value: values.referrerName },
+          { label: "Organization", value: values.organization },
+          { label: "Email", value: values.email },
+          { label: "Phone", value: values.phone },
+          { label: "Patient Initials", value: values.patientInitials },
+          { label: "Notes", value: values.notes || "(none provided)" },
+        ],
+      }),
       lines: [
         "New referral request received from the ValleyHC website.",
         "",

@@ -6,7 +6,7 @@ import {
 } from "@/lib/submission-helpers";
 import { enforceRateLimit, getRateLimitKey } from "@/lib/contact-rate-limit";
 import { parseContactSubmission } from "@/lib/contact-submission";
-import { sendContactEmail } from "@/lib/resend-email";
+import { buildEmailHtml, sendContactEmail } from "@/lib/resend-email";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -42,6 +42,16 @@ export async function POST(request: Request) {
     await sendContactEmail({
       subject: `New ValleyHC contact request: ${values.name}`,
       replyTo: values.email,
+      html: buildEmailHtml({
+        intro: "A new contact request was submitted through the Valley Health and Counseling website.",
+        fields: [
+          { label: "Submission ID", value: submissionId },
+          { label: "Name", value: values.name },
+          { label: "Email", value: values.email },
+          { label: "Phone", value: values.phone },
+          { label: "Message", value: values.message },
+        ],
+      }),
       lines: [
         "New contact request received from the ValleyHC website.",
         "",
