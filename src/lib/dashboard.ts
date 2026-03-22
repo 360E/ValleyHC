@@ -3,7 +3,7 @@ import "server-only";
 import { cache } from "react";
 import { unstable_noStore as noStore } from "next/cache";
 
-import { supabase } from "@/lib/supabase";
+import { getSupabaseClient, hasSupabaseConfiguration } from "@/lib/supabase";
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 const DASHBOARD_TIME_ZONE = "America/Los_Angeles";
@@ -207,6 +207,11 @@ export function calculateTrend(previousPeriod: number, currentPeriod: number) {
 export const getLeads = cache(async (range: DashboardRange, period: Period = "current"): Promise<LeadRecord[]> => {
   noStore();
 
+  if (!hasSupabaseConfiguration()) {
+    throw new Error("Dashboard Supabase configuration is missing.");
+  }
+
+  const supabase = getSupabaseClient();
   const { startDate, endDate } = getRangeWindow(range, period);
   const { data, error } = await supabase
     .from("leads")

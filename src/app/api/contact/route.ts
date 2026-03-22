@@ -6,7 +6,7 @@ import {
 import { enforceRateLimit, getRateLimitKey } from "@/lib/contact-rate-limit";
 import { normalizeContactPayload, parseContactSubmission } from "@/lib/contact-submission";
 import { submitContactRequest } from "@/lib/api";
-import { supabase } from "@/lib/supabase";
+import { getSupabaseClient, hasSupabaseConfiguration } from "@/lib/supabase";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -87,6 +87,20 @@ export async function POST(request: Request) {
       return createValidationErrorResponse(parsedPayload.error);
     }
 
+    if (!hasSupabaseConfiguration()) {
+      logSafeSubmissionEvent("contact lead configuration missing", {
+        route: "contact",
+      });
+
+      return createNoStoreJsonResponse(
+        {
+          error: "We could not save your request right now. Please try again shortly.",
+        },
+        { status: 500 },
+      );
+    }
+
+    const supabase = getSupabaseClient();
     const { error: insertError } = await supabase.from("leads").insert([
       {
         name: parsedPayload.data.name,
