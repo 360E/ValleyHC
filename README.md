@@ -158,14 +158,6 @@ The workflow listens for pushes to `main` and `master`. If you keep a different 
    - Output location: leave blank for the hybrid Next.js deployment flow
 5. Finish the resource creation
 
-### GitHub secret
-
-Add the deployment token from Azure Static Web Apps to your GitHub repository secrets as:
-
-```text
-AZURE_STATIC_WEB_APPS_API_TOKEN
-```
-
 ### Runtime environment variables
 
 Add these application settings in Azure Static Web Apps after the site is created:
