@@ -97,11 +97,11 @@ export async function sendContactEmail({
       html,
     });
 
-    console.log("Email sent successfully");
+    console.log("RESEND RESULT:", result);
 
     return result;
   } catch (error) {
-    console.error("Email send failed:", error);
+    console.error("RESEND ERROR:", error);
     throw error;
   }
 }
