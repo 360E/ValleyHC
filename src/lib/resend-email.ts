@@ -83,13 +83,25 @@ export async function sendContactEmail({
   replyTo?: string;
 }) {
   const resend = getResendClient();
+  const contactEmail = getContactEmail();
 
-  return resend.emails.send({
-    from: getSenderAddress(),
-    to: getContactEmailAddress(),
-    replyTo,
-    subject,
-    text: lines.join("\n"),
-    html,
-  });
+  console.log("Sending email to:", contactEmail);
+
+  try {
+    const result = await resend.emails.send({
+      from: getSenderAddress(),
+      to: contactEmail,
+      replyTo,
+      subject,
+      text: lines.join("\n"),
+      html,
+    });
+
+    console.log("Email sent successfully");
+
+    return result;
+  } catch (error) {
+    console.error("Email send failed:", error);
+    throw error;
+  }
 }
