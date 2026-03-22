@@ -1,6 +1,6 @@
 # Valley Health and Counseling
 
-ValleyHC is a standalone marketing website for a behavioral health clinic. It is built with Next.js 14, TypeScript, Tailwind CSS, reusable shadcn-style UI primitives, and validated contact/referral submission flows designed to avoid PHI storage.
+ValleyHC is a standalone marketing website for a behavioral health clinic. It is built with Next.js 14, TypeScript, Tailwind CSS, reusable shadcn-style UI primitives, and Resend-backed contact/referral submission flows designed to avoid PHI storage.
 
 ## Goals
 
@@ -48,7 +48,20 @@ public/
 - Lucide icons
 - React Hook Form
 - Zod
+- Resend
 - `clsx`, `class-variance-authority`, and `tailwind-merge`
+
+## Environment variables
+
+Create `.env.local`:
+
+```bash
+RESEND_API_KEY=
+CONTACT_EMAIL=your-email@example.com
+```
+
+- `RESEND_API_KEY` is your Resend API key
+- `CONTACT_EMAIL` is the inbox that should receive website contact and referral emails
 
 ## Local development
 
@@ -78,10 +91,10 @@ npm run build
 
 ### Submission endpoints
 
-- `POST /api/contact-request`
-- `POST /api/referral-request`
+- `POST /api/contact`
+- `POST /api/referral`
 
-These endpoints are ready to be swapped later to email, CRM, intake orchestration, or VEHR-connected workflows without changing the public form UX.
+These endpoints validate submissions with Zod, apply a basic in-memory rate limit, sanitize inbound text, and send emails through Resend without writing to a database.
 
 ## Vercel deployment
 
@@ -100,3 +113,11 @@ Recommended next steps for deployment:
 - `robots.txt`, sitemap, and web manifest routes
 - Security headers in `next.config.mjs`
 - Standalone public routing with no dependency on VEHR UI
+- Resend-ready API routes for contact and referral requests
+
+## Resend setup
+
+1. Go to Resend and create an API key
+2. Verify your sending domain, or use the Resend test sender during setup
+3. Add `RESEND_API_KEY` and `CONTACT_EMAIL` to Vercel project environment variables
+4. Redeploy after the variables are added

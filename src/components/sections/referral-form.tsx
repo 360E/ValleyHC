@@ -41,7 +41,7 @@ export function ReferralForm() {
     setSubmissionError(null);
 
     try {
-      const response = await fetch("/api/referral-request", {
+      const response = await fetch("/api/referral", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -56,7 +56,7 @@ export function ReferralForm() {
         return;
       }
 
-      setSubmissionMessage(payload?.message ?? "Thanks. The referral request was sent to ValleyHC for follow-up.");
+      setSubmissionMessage(payload?.message ?? "Your request has been received. Our team will contact you shortly.");
       reset();
     } catch {
       setSubmissionError("We could not send the referral right now. Please call the clinic instead.");

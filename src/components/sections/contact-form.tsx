@@ -39,7 +39,7 @@ export function ContactForm() {
     setSubmissionError(null);
 
     try {
-      const response = await fetch("/api/contact-request", {
+      const response = await fetch("/api/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -54,7 +54,7 @@ export function ContactForm() {
         return;
       }
 
-      setSubmissionMessage(payload?.message ?? "Thanks. Your request was sent to ValleyHC for follow-up.");
+      setSubmissionMessage(payload?.message ?? "Your request has been received. Our team will contact you shortly.");
       reset();
     } catch {
       setSubmissionError("We could not send your request right now. Please call the clinic instead.");
