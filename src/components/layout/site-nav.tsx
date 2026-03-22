@@ -25,12 +25,20 @@ function isActivePath(pathname: string, href: string) {
 export function Header() {
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const isHomePage = pathname === "/";
 
   return (
-    <header className="sticky top-0 z-50 border-b border-[var(--border)] bg-white/90 backdrop-blur-xl">
+    <header
+      className={cn(
+        "sticky top-0 z-50 backdrop-blur-xl",
+        isHomePage
+          ? "border-b border-white/10 bg-[#0b1f2a]/72"
+          : "border-b border-[var(--border)] bg-white/90",
+      )}
+    >
       <div className="mx-auto max-w-[1100px] px-4 sm:px-6">
         <div className="flex items-center justify-between gap-3 py-4">
-          <SiteLogo />
+          <SiteLogo inverted={isHomePage} />
 
           <nav className="hidden items-center justify-center gap-1 lg:flex" aria-label="Primary navigation">
             {navigationItems.map((item) => {
@@ -43,8 +51,12 @@ export function Header() {
                   className={cn(
                     "rounded-full px-4 py-2 text-sm font-medium transition",
                     isActive
-                      ? "bg-slate-100 text-[var(--primary)]"
-                      : "text-[var(--text-muted)] hover:text-[var(--primary)]",
+                      ? isHomePage
+                        ? "bg-white/10 text-white"
+                        : "bg-slate-100 text-[var(--primary)]"
+                      : isHomePage
+                        ? "text-white/70 hover:text-white"
+                        : "text-[var(--text-muted)] hover:text-[var(--primary)]",
                   )}
                 >
                   {item.label}
@@ -57,7 +69,12 @@ export function Header() {
             <TrackedPhoneLink
               href={callHref}
               label="call_click"
-              className="inline-flex min-h-11 items-center justify-center rounded-full bg-[var(--primary)] px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[var(--primary-strong)]"
+              className={cn(
+                "inline-flex min-h-11 items-center justify-center rounded-lg px-5 py-2.5 text-sm font-semibold transition-colors",
+                isHomePage
+                  ? "border border-white/20 bg-white/6 text-white hover:bg-white/10"
+                  : "bg-[var(--primary)] text-white hover:bg-[var(--primary-strong)]",
+              )}
             >
               <span className="hidden sm:inline">{callLabel}</span>
               <span className="sm:hidden">Call Now</span>
@@ -66,7 +83,12 @@ export function Header() {
             <button
               type="button"
               onClick={() => setIsMenuOpen((currentValue) => !currentValue)}
-              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[var(--border)] bg-white text-[var(--primary)] lg:hidden"
+              className={cn(
+                "inline-flex h-11 w-11 items-center justify-center rounded-lg lg:hidden",
+                isHomePage
+                  ? "border border-white/20 bg-white/6 text-white"
+                  : "border border-[var(--border)] bg-white text-[var(--primary)]",
+              )}
               aria-expanded={isMenuOpen}
               aria-label={isMenuOpen ? "Close navigation menu" : "Open navigation menu"}
             >
@@ -76,7 +98,12 @@ export function Header() {
         </div>
 
         {isMenuOpen ? (
-          <div className="animate-fade-up space-y-3 border-t border-[var(--border)] py-4 lg:hidden">
+          <div
+            className={cn(
+              "animate-fade-up space-y-3 py-4 lg:hidden",
+              isHomePage ? "border-t border-white/10" : "border-t border-[var(--border)]",
+            )}
+          >
             <nav className="grid gap-2" aria-label="Mobile navigation">
               {navigationItems.map((item) => {
                 const isActive = isActivePath(pathname, item.href);
@@ -89,8 +116,12 @@ export function Header() {
                     className={cn(
                       "rounded-xl px-4 py-3 text-sm font-medium transition",
                       isActive
-                        ? "bg-slate-100 text-[var(--primary)]"
-                        : "text-[var(--site-foreground)] hover:bg-white",
+                        ? isHomePage
+                          ? "bg-white/10 text-white"
+                          : "bg-slate-100 text-[var(--primary)]"
+                        : isHomePage
+                          ? "text-white/76 hover:bg-white/6"
+                          : "text-[var(--site-foreground)] hover:bg-white",
                     )}
                   >
                     {item.label}
