@@ -125,6 +125,10 @@ export function ContactForm() {
           />
         </FormField>
 
+        <p className="rounded-2xl border border-[var(--border)] bg-white/80 px-4 py-3 text-sm leading-6 text-[var(--text-muted)]">
+          Please do not include sensitive personal or medical information in this form.
+        </p>
+
         <Button type="submit" variant="accent" size="lg" disabled={isSubmitting}>
           {isSubmitting ? "Submitting..." : "Send Contact Request"}
         </Button>

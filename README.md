@@ -10,6 +10,7 @@ ValleyHC is a standalone marketing website for a behavioral health clinic. It is
 - Frontend-only forms with no PHI storage
 - Build-ready structure for future VEHR integration
 - Vercel-friendly deployment path with domain-ready metadata and SEO primitives
+- Azure Static Web Apps-ready hybrid deployment path for the public site and App Router form endpoints
 
 ## Project structure
 
@@ -80,6 +81,8 @@ npm run typecheck
 npm run build
 ```
 
+The production build output is written to `.next`.
+
 ## Form behavior
 
 - Contact and referral forms submit to internal Next.js route handlers
@@ -102,7 +105,7 @@ Recommended next steps for deployment:
 
 1. Import the repository into Vercel
 2. Keep the framework preset as `Next.js`
-3. Deploy preview builds and verify the public routes plus `/api/contact-request` and `/api/referral-request`
+3. Deploy preview builds and verify the public routes plus `/api/contact` and `/api/referral`
 4. Add the production domain in Vercel once DNS is ready
 5. Confirm generated `robots.txt`, `sitemap.xml`, and `manifest.webmanifest`
 6. Replace the internal no-persistence handlers with your chosen intake destination when you are ready
@@ -121,3 +124,48 @@ Recommended next steps for deployment:
 2. Verify your sending domain, or use the Resend test sender during setup
 3. Add `RESEND_API_KEY` and `CONTACT_EMAIL` to Vercel project environment variables
 4. Redeploy after the variables are added
+
+## Azure Static Web Apps deployment
+
+This project uses Next.js App Router API routes for `/api/contact` and `/api/referral`, so it should be deployed to Azure Static Web Apps as a hybrid Next.js app instead of a pure static export.
+
+### Workflow
+
+The repository includes a GitHub Actions workflow at `.github/workflows/azure-static-web-apps.yml` that:
+
+1. Installs dependencies with `npm ci`
+2. Runs `npm run lint`
+3. Runs `npm run build`
+4. Deploys to Azure Static Web Apps
+
+The workflow listens for pushes to `main` and `master`. If you keep a different default branch, update the workflow trigger to match.
+
+### Azure setup
+
+1. In the Azure portal, create a new Static Web App
+2. Select your GitHub repository and branch
+3. Choose `Custom` build settings
+4. Set:
+   - App location: `/`
+   - API location: leave blank
+   - Output location: leave blank for the hybrid Next.js deployment flow
+5. Finish the resource creation
+
+### GitHub secret
+
+Add the deployment token from Azure Static Web Apps to your GitHub repository secrets as:
+
+```text
+AZURE_STATIC_WEB_APPS_API_TOKEN
+```
+
+### Runtime environment variables
+
+Add these application settings in Azure Static Web Apps after the site is created:
+
+```text
+RESEND_API_KEY
+CONTACT_EMAIL
+```
+
+After the variables are added, redeploy the app and verify the public pages plus `/api/contact` and `/api/referral`.
