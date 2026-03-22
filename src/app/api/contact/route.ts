@@ -97,10 +97,13 @@ export async function POST(request: Request) {
       );
     }
 
-    return createNoStoreJsonResponse({
-      success: true,
-      message: result.message,
-    });
+    return new Response(
+      JSON.stringify({
+        success: true,
+        emailAttempted: true,
+      }),
+      { status: 200 },
+    );
   } catch (error) {
     console.error("[ValleyHC] contact route failed", error);
 
@@ -109,10 +112,11 @@ export async function POST(request: Request) {
       errorName: error instanceof Error ? error.name : "UnknownError",
     });
 
-    return createNoStoreJsonResponse(
-      {
-        error: "Server error",
-      },
+    return new Response(
+      JSON.stringify({
+        success: false,
+        error: error instanceof Error ? error.message : "Unknown error",
+      }),
       { status: 500 },
     );
   }
