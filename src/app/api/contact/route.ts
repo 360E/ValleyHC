@@ -87,6 +87,8 @@ export async function POST(request: Request) {
       message: result.message,
     });
   } catch (error) {
+    console.error("[ValleyHC] contact route failed", error);
+
     logSafeSubmissionEvent("contact route failed", {
       route: "contact",
       errorName: error instanceof Error ? error.name : "UnknownError",
@@ -94,7 +96,7 @@ export async function POST(request: Request) {
 
     return createNoStoreJsonResponse(
       {
-        error: "We could not send your request right now. Please try again shortly.",
+        error: "Server error",
       },
       { status: 500 },
     );
