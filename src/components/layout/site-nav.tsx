@@ -30,9 +30,9 @@ export function Header() {
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 backdrop-blur-xl",
+        "sticky top-0 z-50 backdrop-blur-xl transition-colors",
         isHomePage
-          ? "border-b border-white/10 bg-[#0b1f2a]/72"
+          ? "border-b border-white/10 bg-[#102738]/70"
           : "border-b border-[var(--border)] bg-white/90",
       )}
     >
@@ -52,10 +52,10 @@ export function Header() {
                     "rounded-full px-4 py-2 text-sm font-medium transition",
                     isActive
                       ? isHomePage
-                        ? "bg-white/10 text-white"
+                        ? "bg-white/12 text-white"
                         : "bg-slate-100 text-[var(--primary)]"
                       : isHomePage
-                        ? "text-white/70 hover:text-white"
+                        ? "text-white/72 hover:bg-white/5 hover:text-white"
                         : "text-[var(--text-muted)] hover:text-[var(--primary)]",
                   )}
                 >
@@ -72,7 +72,7 @@ export function Header() {
               className={cn(
                 "inline-flex min-h-11 items-center justify-center rounded-lg px-5 py-2.5 text-sm font-semibold transition-colors",
                 isHomePage
-                  ? "border border-white/20 bg-white/6 text-white hover:bg-white/10"
+                  ? "border border-white/20 bg-white/8 text-white hover:bg-white/12"
                   : "bg-[var(--primary)] text-white hover:bg-[var(--primary-strong)]",
               )}
             >
@@ -86,7 +86,7 @@ export function Header() {
               className={cn(
                 "inline-flex h-11 w-11 items-center justify-center rounded-lg lg:hidden",
                 isHomePage
-                  ? "border border-white/20 bg-white/6 text-white"
+                  ? "border border-white/20 bg-white/8 text-white"
                   : "border border-[var(--border)] bg-white text-[var(--primary)]",
               )}
               aria-expanded={isMenuOpen}

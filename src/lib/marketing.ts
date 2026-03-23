@@ -65,15 +65,16 @@ export const footerLinks: NavigationItem[] = [
 ];
 
 export const heroHighlights = [
+  "Trauma-informed care with supportive, relationship-first intake",
   "Same-week intake availability when clinically appropriate",
-  "Support for addiction, mental health, and recovery stabilization",
+  "Integrated support for addiction, mental health, and recovery stabilization",
   "Referral-friendly coordination for providers and community partners",
 ];
 
 export const heroStats = [
-  { label: "Care Focus", value: "Mental health, SUD, and recovery support" },
-  { label: "Access", value: "Fast intake and referral response" },
-  { label: "Location", value: "Serving Yakima and surrounding communities" },
+  { label: "Care Focus", value: "Mental health, substance use, and recovery support" },
+  { label: "Access", value: "Responsive intake and referral follow-up" },
+  { label: "Community", value: "Serving Yakima and surrounding communities" },
 ];
 
 export const servicePreviewItems: ServicePreview[] = [

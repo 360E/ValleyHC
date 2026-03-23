@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
+import { Lora, Manrope } from "next/font/google";
 
 import AnalyticsTracker from "@/components/analytics-tracker";
 import { SiteShell } from "@/components/layout/site-shell";
@@ -9,9 +9,16 @@ import { getSiteUrl } from "@/lib/site-url";
 
 import "./globals.css";
 
-const inter = Inter({
+const manrope = Manrope({
   subsets: ["latin"],
   display: "swap",
+  variable: "--font-sans",
+});
+
+const lora = Lora({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-display",
 });
 
 export const metadata: Metadata = {
@@ -58,7 +65,9 @@ export default function RootLayout({
           </>
         ) : null}
       </head>
-      <body className={`${inter.className} bg-[var(--site-background)] text-[var(--site-foreground)] antialiased`}>
+      <body
+        className={`${manrope.variable} ${lora.variable} bg-[var(--site-background)] font-sans text-[var(--site-foreground)] antialiased`}
+      >
         {GA_ID ? <AnalyticsTracker /> : null}
         <SiteShell>{children}</SiteShell>
       </body>

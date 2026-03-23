@@ -1,15 +1,17 @@
+import { CheckCircle2 } from "lucide-react";
+
 const trustBlocks = [
   {
-    title: "Reach Out",
-    text: "Call or submit a request. No sensitive information required.",
+    title: "Reach out",
+    text: "Call or submit a request. We keep the first step simple and do not ask for sensitive medical details online.",
   },
   {
-    title: "We Follow Up",
-    text: "Our team connects with you to understand your needs and next steps.",
+    title: "Talk with our team",
+    text: "We follow up to understand your needs, answer practical questions, and explain what happens next.",
   },
   {
-    title: "Start Care",
-    text: "Get connected with the right provider and begin services.",
+    title: "Begin care",
+    text: "You get connected with the right provider and a clear plan for intake, treatment, and follow-through.",
   },
 ] as const;
 
@@ -17,21 +19,27 @@ const trustBarItems = ["Serving Yakima, WA", "Confidential & Secure", "No PHI su
 
 export function TrustSection() {
   return (
-    <section className="bg-slate-50/60 px-4 py-24 sm:px-6">
-      <div className="mx-auto max-w-[1100px] space-y-8">
-        <div className="mx-auto max-w-2xl space-y-4 text-center">
-          <h2 className="text-3xl font-semibold tracking-tight text-[var(--site-foreground)] md:text-4xl">What to Expect</h2>
-          <p className="text-base leading-8 text-[var(--text-muted)] md:text-lg">
-            Clear, simple steps to get connected with care.
+    <section className="bg-[linear-gradient(180deg,rgba(255,255,255,0.45),rgba(238,243,240,0.9))] px-4 py-24 sm:px-6">
+      <div className="mx-auto max-w-[1100px] space-y-10">
+        <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
+          <div className="space-y-4">
+            <p className="eyebrow text-xs font-semibold text-[var(--accent)]">What to Expect</p>
+            <h2 className="display-title text-4xl text-[var(--primary-strong)] md:text-[3.3rem]">A straightforward path into treatment.</h2>
+          </div>
+          <p className="max-w-2xl text-base leading-8 text-[var(--text-muted)] md:text-lg lg:justify-self-end">
+            Trust comes from clarity. The next step should feel calm, structured, and handled by professionals.
           </p>
         </div>
 
         <div className="grid gap-6 md:grid-cols-3">
           {trustBlocks.map((block, index) => (
-            <div key={block.title} className="rounded-xl border border-[var(--border)] bg-white p-6 shadow-[var(--shadow-soft)]">
-              <div className="space-y-3">
-                <p className="text-sm font-semibold text-[var(--border-strong)]">0{index + 1}</p>
-                <h3 className="text-lg font-semibold text-[var(--site-foreground)]">{block.title}</h3>
+            <div key={block.title} className="rounded-[1.75rem] border border-[var(--border)] bg-white p-7 shadow-[var(--shadow-soft)]">
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <p className="text-sm font-semibold text-[var(--border-strong)]">0{index + 1}</p>
+                  <CheckCircle2 className="h-5 w-5 text-[var(--accent)]" />
+                </div>
+                <h3 className="text-xl font-semibold text-[var(--site-foreground)]">{block.title}</h3>
                 <p className="text-base leading-7 text-[var(--text-muted)]">{block.text}</p>
               </div>
             </div>

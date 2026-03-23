@@ -7,7 +7,7 @@ import { SiteLogo } from "./site-logo";
 
 export function Footer() {
   return (
-    <footer className="bg-slate-50/70">
+    <footer className="border-t border-[var(--border)] bg-[linear-gradient(180deg,rgba(255,255,255,0.4),rgba(238,243,240,0.85))]">
       <div className="mx-auto max-w-[1100px] px-4 py-24 sm:px-6">
         <div className="grid gap-10 lg:grid-cols-[1.15fr_0.8fr_1fr]">
           <div className="space-y-6">
@@ -19,7 +19,7 @@ export function Footer() {
           </div>
 
           <div className="space-y-6">
-            <h2 className="text-sm font-semibold text-[var(--site-foreground)]">Navigation</h2>
+            <h2 className="eyebrow text-xs font-semibold text-[var(--text-muted)]">Navigation</h2>
             <ul className="space-y-3 text-sm text-[var(--text-muted)]">
               {footerLinks.map((item) => (
                 <li key={item.href}>
@@ -32,7 +32,7 @@ export function Footer() {
           </div>
 
           <div className="space-y-6">
-            <h2 className="text-sm font-semibold text-[var(--site-foreground)]">Contact</h2>
+            <h2 className="eyebrow text-xs font-semibold text-[var(--text-muted)]">Contact</h2>
             <div className="space-y-3 text-sm text-[var(--text-muted)]">
               <p>
                 <TrackedPhoneLink href={siteConfig.phoneHref} label="call_click" className="transition hover:text-[var(--primary)]">
@@ -52,7 +52,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-10 border-t border-slate-200 pt-5">
+        <div className="mt-10 border-t border-[var(--border)] pt-5">
           <div className="flex flex-col gap-3 text-sm text-[var(--text-muted)] sm:flex-row sm:items-center sm:justify-between">
             <p>&copy; 2026 Valley Health and Counseling</p>
             <div className="text-sm text-[var(--text-muted)]">Privacy coming soon</div>
