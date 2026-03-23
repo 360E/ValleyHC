@@ -1,0 +1,26 @@
+<svg width="1200" height="860" viewBox="0 0 1200 860" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="860" rx="48" fill="#E6F4F4"/>
+  <rect x="48" y="48" width="1104" height="764" rx="40" fill="url(#bg)"/>
+  <circle cx="924" cy="176" r="110" fill="#D2EEED"/>
+  <circle cx="992" cy="234" r="74" fill="#B7E3E0"/>
+  <rect x="108" y="96" width="248" height="44" rx="22" fill="#FFFFFF" fill-opacity="0.92"/>
+  <text x="144" y="124" fill="#0F4C5C" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="700">Placeholder image</text>
+  <text x="108" y="186" fill="#0F4C5C" font-family="Inter, Arial, sans-serif" font-size="54" font-weight="700">Care team photography</text>
+  <text x="108" y="236" fill="#2C7A7B" font-family="Inter, Arial, sans-serif" font-size="28">Use a welcoming photo of clinicians speaking with a patient or family.</text>
+  <rect x="112" y="510" width="976" height="222" rx="32" fill="#FFFFFF" fill-opacity="0.88"/>
+  <circle cx="296" cy="474" r="98" fill="#0F4C5C"/>
+  <circle cx="296" cy="414" r="58" fill="#F8FAFC"/>
+  <path d="M196 610C196 547.072 247.072 496 310 496H322C384.928 496 436 547.072 436 610V698H196V610Z" fill="#38B2AC"/>
+  <circle cx="584" cy="456" r="84" fill="#2C7A7B"/>
+  <circle cx="584" cy="408" r="48" fill="#F8FAFC"/>
+  <path d="M512 610C512 562.503 550.503 524 598 524H606C653.497 524 692 562.503 692 610V698H512V610Z" fill="#0F4C5C"/>
+  <circle cx="844" cy="474" r="98" fill="#38B2AC"/>
+  <circle cx="844" cy="414" r="58" fill="#F8FAFC"/>
+  <path d="M744 610C744 547.072 795.072 496 858 496H870C932.928 496 984 547.072 984 610V698H744V610Z" fill="#2C7A7B"/>
+  <defs>
+    <linearGradient id="bg" x1="140" y1="92" x2="1074" y2="782" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F8FAFC"/>
+      <stop offset="1" stop-color="#DFF1F1"/>
+    </linearGradient>
+  </defs>
+</svg>

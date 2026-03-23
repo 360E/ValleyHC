@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import { usePathname } from "next/navigation";
 
 import { SiteFooter } from "./site-footer";
+import { StickyMobileCTA } from "./sticky-mobile-cta";
 import { SiteNav } from "./site-nav";
 
 type SiteShellProps = {
@@ -22,8 +23,9 @@ export function SiteShell({ children }: SiteShellProps) {
   return (
     <div className="min-h-screen">
       <SiteNav />
-      <main>{children}</main>
+      <main className="pb-28 md:pb-0">{children}</main>
       <SiteFooter />
+      <StickyMobileCTA />
     </div>
   );
 }

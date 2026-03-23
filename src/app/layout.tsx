@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Lora, Manrope } from "next/font/google";
+import { Inter, Playfair_Display } from "next/font/google";
 
 import AnalyticsTracker from "@/components/analytics-tracker";
 import { SiteShell } from "@/components/layout/site-shell";
@@ -9,13 +9,13 @@ import { getSiteUrl } from "@/lib/site-url";
 
 import "./globals.css";
 
-const manrope = Manrope({
+const inter = Inter({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-sans",
 });
 
-const lora = Lora({
+const playfair = Playfair_Display({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-display",
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     default: siteConfig.name,
     template: `%s | ${siteConfig.name}`,
   },
-  description: "Compassionate behavioral health care in Yakima with support for addiction, mental health, and recovery.",
+  description: "Community-based healthcare in Yakima with support for mental health, addiction treatment, primary care, and medication management.",
   openGraph: {
     siteName: siteConfig.name,
     type: "website",
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#153e75",
+  themeColor: "#0F4C5C",
 };
 
 export default function RootLayout({
@@ -66,7 +66,7 @@ export default function RootLayout({
         ) : null}
       </head>
       <body
-        className={`${manrope.variable} ${lora.variable} bg-[var(--site-background)] font-sans text-[var(--site-foreground)] antialiased`}
+        className={`${inter.variable} ${playfair.variable} bg-[var(--site-background)] font-sans text-[var(--site-foreground)] antialiased`}
       >
         {GA_ID ? <AnalyticsTracker /> : null}
         <SiteShell>{children}</SiteShell>

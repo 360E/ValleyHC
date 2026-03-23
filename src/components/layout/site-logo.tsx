@@ -9,11 +9,11 @@ type SiteLogoProps = {
 
 export function SiteLogo({ className, inverted = false }: SiteLogoProps) {
   return (
-    <Link href="/" className={cn("flex items-center gap-3", className)} aria-label="Valley Health and Counseling home">
+    <Link href="/" className={cn("flex items-center gap-3", className)} aria-label="Valley Health Care home">
       <span
         className={cn(
           "flex h-12 w-12 items-center justify-center rounded-2xl border",
-          inverted ? "border-white/14 bg-white/8" : "border-[var(--border)] bg-white",
+          inverted ? "border-white/16 bg-white/10" : "border-[var(--border)] bg-white",
         )}
       >
         <svg viewBox="0 0 48 48" className="h-8 w-8" aria-hidden="true">
@@ -28,7 +28,7 @@ export function SiteLogo({ className, inverted = false }: SiteLogoProps) {
           <path
             d="M14 31L25 20L34 29"
             fill="none"
-            stroke="#7ccfc1"
+            stroke="var(--accent)"
             strokeWidth="4.5"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -40,13 +40,13 @@ export function SiteLogo({ className, inverted = false }: SiteLogoProps) {
         <span
           className={cn(
             "block text-[11px] font-semibold uppercase tracking-[0.26em]",
-            inverted ? "text-white/62" : "text-[var(--accent)]",
+            inverted ? "text-white/70" : "text-[var(--secondary)]",
           )}
         >
-          Valley Health
+          Yakima, Washington
         </span>
         <span className={cn("block text-sm font-semibold", inverted ? "text-white" : "text-[var(--site-foreground)]")}>
-          Counseling & Recovery Care
+          Valley Health Care
         </span>
       </span>
     </Link>

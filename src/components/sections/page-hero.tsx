@@ -14,11 +14,11 @@ type PageHeroProps = {
 export function PageHero({ eyebrow, title, description, actions, aside, className }: PageHeroProps) {
   return (
     <section className={cn("px-4 py-24 sm:px-6", className)}>
-      <div className="mx-auto grid max-w-[1100px] gap-8 rounded-2xl border border-[var(--border)] bg-brand-mesh px-8 py-12 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
+      <div className="mx-auto grid max-w-[1100px] gap-8 rounded-[2rem] border border-[var(--border)] bg-brand-mesh px-8 py-12 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
         <div className="space-y-6">
-          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[var(--accent)]">{eyebrow}</p>
+          <p className="eyebrow text-xs font-semibold text-[var(--secondary)]">{eyebrow}</p>
           <div className="space-y-6">
-            <h1 className="text-balance text-4xl font-semibold tracking-tight text-[var(--site-foreground)]">
+            <h1 className="display-title text-balance text-4xl text-[var(--site-foreground)] md:text-[3.6rem]">
               {title}
             </h1>
             <p className="text-pretty max-w-xl text-base leading-8 text-[var(--text-muted)] md:text-lg">{description}</p>
