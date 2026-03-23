@@ -229,6 +229,39 @@ In the Azure portal:
 
 After the variables are added, verify the public pages, `/api/contact`, `/api/referral`, `/login`, `/set-password`, and `/dashboard`.
 
-## MCP project config
+## Figma MCP workspace setup
 
-The repository also includes a local editor MCP context file at `.vscode/mcp.json` for this project. It describes ValleyHC as a public marketing site, keeps the no-PHI rules explicit, and marks VEHR and revenue OS integrations as future work.
+This repository is now configured with a workspace-level MCP server entry for Figma in `.vscode/mcp.json`.
+
+### What is configured
+
+- Workspace MCP server: `figma`
+- Server URL: `https://mcp.figma.com/mcp`
+- Project instructions for Figma-driven UI work: `.github/copilot-instructions.md`
+
+### First-time setup in VS Code
+
+1. Open the `360E/ValleyHC` workspace in VS Code
+2. Make sure `GitHub Copilot` and `GitHub Copilot Chat` are enabled
+3. Open the Command Palette and run `MCP: List Servers`
+4. Start the `figma` server if it is not already running
+5. Trust the server when VS Code prompts you
+6. Open Copilot Chat in **Agent** mode
+7. Type `#get_design_context` to confirm the Figma tools are available
+
+If the tools do not appear right away, restart VS Code and run `MCP: List Servers` again.
+
+### Using Figma to build UI in this repo
+
+1. Copy a Figma frame or layer URL
+2. Paste the URL into Copilot Chat and ask it to implement the design in this repo
+3. Ask Copilot to use existing components from `src/components/ui`, `src/components/layout`, and `src/components/sections`
+4. Use `get_screenshot` when you want a visual fidelity check against the selected frame
+
+Example prompt:
+
+```text
+Use the attached Figma frame and implement the homepage hero in this repo.
+Reuse existing ValleyHC components where possible, keep it mobile-first,
+and match the current Next.js + Tailwind patterns.
+```

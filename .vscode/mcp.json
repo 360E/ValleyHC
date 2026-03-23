@@ -1,16 +1,8 @@
 {
-  "project": "ValleyHC",
-  "role": "frontend-marketing-site",
-  "description": "Public marketing website for Valley Health and Counseling. No PHI. Integrates later with VEHR.",
-  "rules": [
-    "Do not store PHI",
-    "Forms are contact-only",
-    "No backend business logic",
-    "Prepare for future VEHR API integration"
-  ],
-  "integrations": {
-    "vehr": "future",
-    "revenue_os": "future",
-    "azure": "static-web-app"
+  "servers": {
+    "figma": {
+      "type": "http",
+      "url": "https://mcp.figma.com/mcp"
+    }
   }
 }
