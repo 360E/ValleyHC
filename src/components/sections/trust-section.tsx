@@ -1,60 +1,50 @@
-import { CheckCircle2 } from "lucide-react";
+import { ShieldCheck } from "lucide-react";
 
-const trustBlocks = [
-  {
-    title: "Reach out",
-    text: "Call or submit a request. We keep the first step simple and do not ask for sensitive medical details online.",
-  },
-  {
-    title: "Talk with our team",
-    text: "We follow up to understand your needs, answer practical questions, and explain what happens next.",
-  },
-  {
-    title: "Begin care",
-    text: "You get connected with the right provider and a clear plan for intake, treatment, and follow-through.",
-  },
-] as const;
-
-const trustBarItems = ["Serving Yakima, WA", "Confidential & Secure", "No PHI submitted online"] as const;
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Section } from "@/components/ui/section";
+import { testimonials, valueProps } from "@/lib/marketing";
 
 export function TrustSection() {
   return (
-    <section className="bg-[linear-gradient(180deg,rgba(255,255,255,0.45),rgba(238,243,240,0.9))] px-4 py-24 sm:px-6">
-      <div className="mx-auto max-w-[1100px] space-y-10">
-        <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
-          <div className="space-y-4">
-            <p className="eyebrow text-xs font-semibold text-[var(--accent)]">What to Expect</p>
-            <h2 className="display-title text-4xl text-[var(--primary-strong)] md:text-[3.3rem]">A straightforward path into treatment.</h2>
+    <Section
+      eyebrow="Trust"
+      title="Professional, community-focused care that feels real"
+      description="Healthcare websites work best when they feel useful instead of overdesigned. This section reinforces local credibility, practical support, and real reasons to reach out."
+      contentClassName="grid gap-6 lg:grid-cols-[0.88fr_1.12fr]"
+    >
+      <Card className="animate-fade-up bg-[linear-gradient(180deg,rgba(15,76,92,0.98),rgba(44,122,123,0.96))] text-white">
+        <CardHeader className="space-y-5">
+          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/10 text-white">
+            <ShieldCheck className="h-6 w-6" />
           </div>
-          <p className="max-w-2xl text-base leading-8 text-[var(--text-muted)] md:text-lg lg:justify-self-end">
-            Trust comes from clarity. The next step should feel calm, structured, and handled by professionals.
-          </p>
-        </div>
-
-        <div className="grid gap-6 md:grid-cols-3">
-          {trustBlocks.map((block, index) => (
-            <div key={block.title} className="rounded-[1.75rem] border border-[var(--border)] bg-white p-7 shadow-[var(--shadow-soft)]">
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <p className="text-sm font-semibold text-[var(--border-strong)]">0{index + 1}</p>
-                  <CheckCircle2 className="h-5 w-5 text-[var(--accent)]" />
-                </div>
-                <h3 className="text-xl font-semibold text-[var(--site-foreground)]">{block.title}</h3>
-                <p className="text-base leading-7 text-[var(--text-muted)]">{block.text}</p>
-              </div>
+          <CardTitle className="font-display text-[2rem] text-white">Grounded care for Yakima families and providers</CardTitle>
+          <CardDescription className="text-white/84">
+            Valley Health Care is positioned as a calm first step for people who need support and do not want to navigate a
+            confusing system alone.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          {valueProps.map((item) => (
+            <div key={item.title} className="rounded-2xl border border-white/10 bg-white/6 px-4 py-4">
+              <p className="font-semibold text-white">{item.title}</p>
+              <p className="mt-2 text-sm leading-6 text-white/82">{item.description}</p>
             </div>
           ))}
-        </div>
+        </CardContent>
+      </Card>
 
-        <div className="flex flex-wrap justify-center gap-x-5 gap-y-2 text-base text-[var(--text-muted)]">
-          {trustBarItems.map((item, index) => (
-            <div key={item} className="flex items-center gap-5">
-              {index > 0 ? <span className="hidden h-1.5 w-1.5 rounded-full bg-[var(--accent)] sm:inline-flex" aria-hidden="true" /> : null}
-              <span className="font-medium">{item}</span>
-            </div>
-          ))}
-        </div>
+      <div className="grid gap-6 md:grid-cols-3">
+        {testimonials.map((item, index) => (
+          <Card key={item.title} className={index === 1 ? "animate-fade-up animate-delay-150" : "animate-fade-up"}>
+            <CardHeader>
+              <p className="font-display text-5xl leading-none text-[var(--border-strong)]">&ldquo;</p>
+              <CardTitle>{item.title}</CardTitle>
+              <CardDescription>{item.role}</CardDescription>
+            </CardHeader>
+            <CardContent className="text-base leading-7 text-[var(--text-muted)]">{item.quote}</CardContent>
+          </Card>
+        ))}
       </div>
-    </section>
+    </Section>
   );
 }

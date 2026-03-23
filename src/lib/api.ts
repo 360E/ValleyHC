@@ -84,7 +84,7 @@ export async function submitContactRequest(values: ContactSubmissionValues): Pro
     route: "contact",
     subject: `New ValleyHC contact request: ${values.name}`,
     replyTo: values.email,
-    intro: "A new contact request was submitted through the Valley Health and Counseling website.",
+    intro: "A new contact request was submitted through the Valley Health Care website.",
     fields: [
       { label: "Name", value: values.name },
       { label: "Email", value: values.email },
@@ -110,7 +110,7 @@ export async function submitReferralRequest(values: ReferralSubmissionValues): P
     route: "referral",
     subject: `New ValleyHC referral request: ${values.referrerName}`,
     replyTo: values.email,
-    intro: "A new referral request was submitted through the Valley Health and Counseling website. Do not include protected health information.",
+    intro: "A new referral request was submitted through the Valley Health Care website. Do not include protected health information.",
     fields: [
       { label: "Referrer Name", value: values.referrerName },
       { label: "Organization", value: values.organization },

@@ -83,7 +83,7 @@ export function ContactForm() {
         </div>
       ) : null}
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6" noValidate>
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6" noValidate data-analytics-form="contact_form">
         <FormField htmlFor="contact-name" label="Name" error={errors.name?.message} required>
           <Controller
             name="name"
@@ -161,7 +161,7 @@ export function ContactForm() {
           Please do not include sensitive personal or medical information in this form.
         </p>
 
-        <Button type="submit" variant="accent" size="lg" disabled={isSubmitting}>
+        <Button type="submit" variant="accent" size="lg" disabled={isSubmitting} data-analytics-event="form_submit">
           {isSubmitting ? "Submitting..." : "Send Contact Request"}
         </Button>
       </form>

@@ -1,21 +1,21 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Section } from "@/components/ui/section";
-import { testimonialPlaceholders } from "@/lib/marketing";
+import { testimonials } from "@/lib/marketing";
 
 export function TestimonialsSection() {
   return (
     <Section
       eyebrow="Stories and trust"
-      title="Approved testimonials can be added here"
-      description="This space is reserved for patient, family, or referral-partner feedback once final content is available."
+      title="What people should feel from the first interaction"
+      description="These mock testimonials keep the component valid and ready if you decide to reuse it elsewhere."
       contentClassName="grid gap-6 lg:grid-cols-3"
     >
-      {testimonialPlaceholders.map((item) => (
+      {testimonials.map((item) => (
         <Card key={item.title}>
           <CardHeader>
-            <p className="text-4xl font-semibold leading-none text-[var(--border-strong)]">&ldquo;</p>
+            <p className="font-display text-5xl leading-none text-[var(--border-strong)]">&ldquo;</p>
             <CardTitle>{item.title}</CardTitle>
-            <CardDescription>Placeholder</CardDescription>
+            <CardDescription>{item.role}</CardDescription>
           </CardHeader>
           <CardContent className="text-base leading-7 text-[var(--text-muted)]">{item.quote}</CardContent>
         </Card>

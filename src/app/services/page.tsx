@@ -2,14 +2,15 @@ import Link from "next/link";
 
 import { FinalCtaSection } from "@/components/sections/final-cta-section";
 import { PageHero } from "@/components/sections/page-hero";
+import { TrackedLink } from "@/components/TrackedLink";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Section } from "@/components/ui/section";
 import { buildPageMetadata, serviceDetails } from "@/lib/marketing";
 
 export const metadata = buildPageMetadata(
-  "Behavioral Health Services",
-  "Explore substance use treatment, mental health counseling, intensive outpatient care, and medication support from ValleyHC.",
+  "Services",
+  "Explore mental health services, addiction treatment, primary care, case management, and psychiatric medication management from Valley Health Care.",
 );
 
 export default function ServicesPage() {
@@ -17,46 +18,47 @@ export default function ServicesPage() {
     <>
       <PageHero
         eyebrow="Services"
-        title="Behavioral health services built around recovery, stability, and access"
-        description="ValleyHC combines evidence-based treatment with compassionate support so patients and referral partners always know the next step."
+        title="Five core care lines designed to feel clear and approachable"
+        description="The services page should help patients and referral partners understand what Valley Health Care does in one quick read, then move directly into contact or a service detail page."
         actions={
           <>
-            <Link href="/contact" className={buttonVariants({ variant: "accent", size: "lg" })}>
-              Get Help Today
-            </Link>
-            <Link href="/insurance" className={buttonVariants({ variant: "secondary", size: "lg" })}>
-              Verify Benefits
+            <TrackedLink
+              href="/contact"
+              eventAction="book_appointment_click"
+              eventLabel="services_page_book_appointment"
+              className={buttonVariants({ variant: "accent", size: "lg" })}
+            >
+              Book Appointment
+            </TrackedLink>
+            <Link href="/locations" className={buttonVariants({ variant: "secondary", size: "lg" })}>
+              View Location
             </Link>
           </>
         }
         aside={
           <div className="space-y-4">
-            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[var(--accent)]">What patients can expect</p>
+            <p className="eyebrow text-xs font-semibold text-[var(--secondary)]">Access and fit</p>
             <ul className="space-y-3 text-sm leading-6 text-[var(--text-muted)]">
-              <li>Care planning based on clinical need, goals, and practical scheduling.</li>
-              <li>Clear communication for patients, families, and referral partners.</li>
-              <li>Flexible support across mental health, substance use, and recovery stabilization.</li>
+              <li>Use the site to understand the care mix quickly.</li>
+              <li>Move to booking, calling, or referrals without extra friction.</li>
+              <li>Keep all service descriptions plain, direct, and easy to scan on mobile.</li>
             </ul>
           </div>
         }
       />
 
       <Section
-        eyebrow="Care options"
-        title="Service lines designed for continuity and whole-person support"
-        description="Each program area is built to coordinate care, reduce friction at intake, and help patients stay engaged."
-        contentClassName="grid gap-6 lg:grid-cols-2"
+        eyebrow="Service lines"
+        title="What Valley Health Care offers"
+        description="Each service card links into a detail page and also keeps the key promise visible right away: clear care, practical support, and a path forward."
+        contentClassName="grid gap-6 md:grid-cols-2 xl:grid-cols-3"
       >
         {serviceDetails.map((service, index) => {
           const Icon = service.icon;
 
           return (
-            <Card
-              key={service.id}
-              id={service.id}
-              className={index % 2 === 0 ? "animate-fade-up" : "animate-fade-up animate-delay-150"}
-            >
-              <CardHeader>
+            <Card key={service.id} className={index === 1 ? "animate-fade-up animate-delay-150" : "animate-fade-up"}>
+              <CardHeader className="space-y-4">
                 <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--surface-muted)] text-[var(--primary)]">
                   <Icon className="h-6 w-6" />
                 </div>
@@ -72,56 +74,21 @@ export default function ServicesPage() {
                     </li>
                   ))}
                 </ul>
-                <Link href="/contact" className={buttonVariants({ variant: "secondary" })}>
-                  Request an intake conversation
-                </Link>
+                <TrackedLink
+                  href={`/services/${service.slug}`}
+                  eventAction="service_card_click"
+                  eventLabel={`services_page_${service.slug}`}
+                  className={buttonVariants({ variant: "secondary" })}
+                >
+                  View Service Details
+                </TrackedLink>
               </CardContent>
             </Card>
           );
         })}
       </Section>
 
-      <Section
-        eyebrow="Support model"
-        title="Built for prompt access and coordinated follow-through"
-        description="We keep outreach simple so patients and referral sources can move quickly from first contact to the right care plan."
-        contentClassName="grid gap-6 lg:grid-cols-2"
-      >
-        <Card>
-          <CardHeader>
-            <CardTitle>Intake that moves quickly</CardTitle>
-            <CardDescription>
-              The admissions path is designed to reduce friction, clarify eligibility, and keep people connected to care.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-3 text-sm leading-6 text-[var(--text-muted)]">
-            <p>Simple contact requests and referral forms make it easy to start the conversation without collecting sensitive details online.</p>
-            <p>Our team can then coordinate directly by phone or secure follow-up for scheduling, level-of-care review, and benefit verification.</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Care that stays connected</CardTitle>
-            <CardDescription>
-              Treatment planning works best when communication stays clear across counseling, medication support, and recovery services.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-3 text-sm leading-6 text-[var(--text-muted)]">
-            <p>ValleyHC is structured to support referring providers, patients, and families with predictable updates and next steps.</p>
-            <p>That makes the site scalable now while keeping space for future VEHR-connected workflows later.</p>
-          </CardContent>
-        </Card>
-      </Section>
-
-      <FinalCtaSection
-        title="Questions about services or fit?"
-        description="Our team can help clarify levels of care, scheduling, and next steps before a patient begins treatment."
-        primaryHref="/contact"
-        primaryLabel="Talk with Admissions"
-        secondaryHref="/referrals"
-        secondaryLabel="Refer a Patient"
-      />
+      <FinalCtaSection />
     </>
   );
 }

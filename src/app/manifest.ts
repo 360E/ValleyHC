@@ -2,13 +2,13 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Valley Health and Counseling",
+    name: "Valley Health Care",
     short_name: "ValleyHC",
-    description: "Compassionate behavioral health care in Yakima.",
+    description: "Community-based healthcare in Yakima with mental health, addiction treatment, primary care, and medication support.",
     start_url: "/",
     display: "standalone",
-    background_color: "#f3f7fb",
-    theme_color: "#153e75",
+    background_color: "#f7fafc",
+    theme_color: "#0F4C5C",
     icons: [
       {
         src: "/favicon.ico",

@@ -14,7 +14,7 @@ export default function NotFound() {
             We couldn&apos;t find that page.
           </h1>
           <p className="text-base leading-8 text-[var(--text-muted)] md:text-lg">
-            Return to the homepage or contact Valley Health and Counseling for help getting to the right place.
+            Return to the homepage or contact Valley Health Care for help getting to the right place.
           </p>
 
           <div className="flex flex-wrap justify-center gap-3">
@@ -30,7 +30,7 @@ export default function NotFound() {
             Need immediate assistance?{" "}
             <TrackedPhoneLink
               href={siteConfig.phoneHref}
-              label="call_click"
+              label="not_found_call"
               className="font-semibold text-[var(--primary)] transition hover:text-[var(--primary-strong)]"
             >
               Call {siteConfig.phoneDisplay}

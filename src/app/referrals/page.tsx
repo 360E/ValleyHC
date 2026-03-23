@@ -17,7 +17,7 @@ const referralSupportPoints = [
 
 export const metadata = buildPageMetadata(
   "Patient Referrals",
-  "Refer a patient to Valley Health and Counseling with a streamlined, non-sensitive web form designed for referral partners.",
+  "Refer a patient to Valley Health Care with a streamlined, non-sensitive web form designed for referral partners.",
 );
 
 export default function ReferralsPage() {
@@ -32,7 +32,7 @@ export default function ReferralsPage() {
             <Link href="/contact" className={buttonVariants({ variant: "accent", size: "lg" })}>
               Contact Admissions
             </Link>
-            <TrackedPhoneLink href={siteConfig.phoneHref} label="call_click" className={buttonVariants({ variant: "secondary", size: "lg" })}>
+            <TrackedPhoneLink href={siteConfig.phoneHref} label="referrals_page_call" className={buttonVariants({ variant: "secondary", size: "lg" })}>
               Call {siteConfig.phoneDisplay}
             </TrackedPhoneLink>
           </>

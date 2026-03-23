@@ -1,79 +1,48 @@
-import Link from "next/link";
-import { ArrowRight, BrainCircuit, Cross, ShieldCheck } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
-import { buttonVariants } from "@/components/ui/button";
-
-const services = [
-  {
-    title: "Mental Health Care",
-    text: "Counseling and ongoing support for anxiety, depression, trauma, stress, and life transitions.",
-    icon: BrainCircuit,
-  },
-  {
-    title: "Addiction Treatment",
-    text: "Structured outpatient support for substance use, relapse prevention, and long-term recovery.",
-    icon: ShieldCheck,
-  },
-  {
-    title: "Integrated Medical Support",
-    text: "Behavioral health care coordinated with medical needs when treatment requires a broader plan.",
-    icon: Cross,
-  },
-] as const;
+import { TrackedLink } from "@/components/TrackedLink";
+import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Section } from "@/components/ui/section";
+import { servicePreviewItems } from "@/lib/marketing";
 
 export function ServicesSection() {
   return (
-    <section className="px-4 py-24 sm:px-6">
-      <div className="mx-auto max-w-[1100px] space-y-10">
-        <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
-          <div className="space-y-4">
-            <p className="eyebrow text-xs font-semibold text-[var(--accent)]">Services</p>
-            <h2 className="display-title text-4xl text-[var(--primary-strong)] md:text-[3.4rem]">
-              Thoughtful support across behavioral health and recovery.
-            </h2>
-          </div>
-          <p className="max-w-2xl text-base leading-8 text-[var(--text-muted)] md:text-lg lg:justify-self-end">
-            The page should explain care simply and credibly. Patients should understand what you do within seconds, without
-            feeling like they landed on a generic startup homepage.
-          </p>
-        </div>
+    <Section
+      id="services"
+      eyebrow="Services"
+      title="Care options built around clarity, access, and follow-through"
+      description="Each service line is designed to be understandable on first read so people can move toward care instead of getting stuck in the intake process."
+      contentClassName="grid gap-6 md:grid-cols-2 xl:grid-cols-5"
+    >
+      {servicePreviewItems.map((service, index) => {
+        const Icon = service.icon;
 
-        <div className="grid gap-6 md:grid-cols-3">
-          {services.map((service) => {
-            const Icon = service.icon;
-
-            return (
-              <div
-                key={service.title}
-                className="group rounded-[1.75rem] border border-[var(--border)] bg-white p-7 shadow-[var(--shadow-soft)] transition-all duration-200 hover:-translate-y-1 hover:border-[var(--border-strong)]"
-              >
-                <div className="space-y-5">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--surface-muted)] text-[var(--primary)]">
-                    <Icon className="h-5 w-5" />
-                  </div>
-                  <div className="space-y-3">
-                    <h3 className="text-xl font-semibold text-[var(--site-foreground)]">{service.title}</h3>
-                    <p className="text-base leading-7 text-[var(--text-muted)]">{service.text}</p>
-                  </div>
-                  <div className="flex items-center gap-2 text-sm font-semibold text-[var(--primary)]">
-                    <span>Learn more</span>
-                    <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
-                  </div>
-                </div>
+        return (
+          <Card
+            key={service.title}
+            className={index % 2 === 0 ? "animate-fade-up" : "animate-fade-up animate-delay-150"}
+          >
+            <CardHeader className="flex h-full flex-col space-y-5">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--surface-muted)] text-[var(--primary)]">
+                <Icon className="h-6 w-6" />
               </div>
-            );
-          })}
-        </div>
-
-        <div className="flex flex-wrap justify-center gap-3">
-          <Link href="/contact" className={buttonVariants({ variant: "accent", size: "lg" })}>
-            Start Request
-          </Link>
-          <Link href="/services" className={buttonVariants({ variant: "secondary", size: "lg" })}>
-            Explore Services
-          </Link>
-        </div>
-      </div>
-    </section>
+              <div className="space-y-3">
+                <CardTitle>{service.title}</CardTitle>
+                <CardDescription>{service.description}</CardDescription>
+              </div>
+              <TrackedLink
+                href={service.href}
+                eventAction="service_card_click"
+                eventLabel={service.title}
+                className="mt-auto inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-[var(--border-strong)] bg-white px-4 py-3 text-sm font-semibold text-[var(--primary)] transition duration-200 hover:border-[var(--primary)] hover:bg-[var(--surface-muted)]"
+              >
+                Learn More
+                <ArrowRight className="h-4 w-4" />
+              </TrackedLink>
+            </CardHeader>
+          </Card>
+        );
+      })}
+    </Section>
   );
 }

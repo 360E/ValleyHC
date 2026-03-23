@@ -1,17 +1,16 @@
-import Link from "next/link";
-
 import TrackedPhoneLink from "@/components/TrackedPhoneLink";
 import { ContactForm } from "@/components/sections/contact-form";
 import { FinalCtaSection } from "@/components/sections/final-cta-section";
 import { PageHero } from "@/components/sections/page-hero";
+import { TrackedLink } from "@/components/TrackedLink";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Section } from "@/components/ui/section";
 import { buildPageMetadata, siteConfig } from "@/lib/marketing";
 
 export const metadata = buildPageMetadata(
-  "Contact ValleyHC",
-  "Reach Valley Health and Counseling for behavioral health support, referrals, and intake questions in Yakima.",
+  "Contact Valley Health Care",
+  "Call or contact Valley Health Care for mental health services, addiction treatment, primary care, case management, and medication support in Yakima.",
 );
 
 export default function ContactPage() {
@@ -19,21 +18,32 @@ export default function ContactPage() {
     <>
       <PageHero
         eyebrow="Contact"
-        title="Reach out for support, scheduling questions, or next-step guidance"
-        description="Use the contact request form for simple outreach only. Please do not send protected health information through this website."
+        title="Book an appointment or call for next-step guidance"
+        description="This page is built to convert. People should be able to call now, send a general message, or understand the clinic’s hours and location without extra scrolling."
         actions={
           <>
-            <TrackedPhoneLink href={siteConfig.phoneHref} label="call_click" className={buttonVariants({ variant: "accent", size: "lg" })}>
-              Call {siteConfig.phoneDisplay}
+            <TrackedLink
+              href="/contact"
+              eventAction="book_appointment_click"
+              eventLabel="contact_page_book_appointment"
+              className={buttonVariants({ variant: "accent", size: "lg" })}
+            >
+              Book Appointment
+            </TrackedLink>
+            <TrackedPhoneLink
+              href={siteConfig.phoneHref}
+              label="contact_page_call"
+              data-analytics-event="call_click"
+              data-analytics-label="contact_page_call"
+              className={buttonVariants({ variant: "secondary", size: "lg" })}
+            >
+              Call Now
             </TrackedPhoneLink>
-            <Link href="/referrals" className={buttonVariants({ variant: "secondary", size: "lg" })}>
-              Refer a Patient
-            </Link>
           </>
         }
         aside={
           <div className="space-y-4">
-            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[var(--accent)]">Office hours</p>
+            <p className="eyebrow text-xs font-semibold text-[var(--secondary)]">Office hours</p>
             <ul className="space-y-3 text-sm leading-6 text-[var(--text-muted)]">
               {siteConfig.hours.map((hour) => (
                 <li key={hour.label} className="flex items-start justify-between gap-4">
@@ -51,7 +61,8 @@ export default function ContactPage() {
           <CardHeader>
             <CardTitle>Contact request</CardTitle>
             <CardDescription>
-              This form submits through a validated website endpoint for non-sensitive outreach only. Please do not include protected health information.
+              Keep the message general and public-web safe. The form is designed for outreach, not for sending medical history or
+              protected health information.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -63,12 +74,18 @@ export default function ContactPage() {
           <Card className="animate-fade-up animate-delay-150">
             <CardHeader>
               <CardTitle>Clinic information</CardTitle>
-              <CardDescription>Simple, referral-friendly contact details for patients, families, and community partners.</CardDescription>
+              <CardDescription>Simple details for patients, families, and referral partners who need to act quickly.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4 text-sm leading-6 text-[var(--text-muted)]">
               <div>
                 <p className="font-semibold text-[var(--site-foreground)]">Phone</p>
-                <TrackedPhoneLink href={siteConfig.phoneHref} label="call_click" className="transition hover:text-[var(--primary)]">
+                <TrackedPhoneLink
+                  href={siteConfig.phoneHref}
+                  label="contact_info_call"
+                  data-analytics-event="call_click"
+                  data-analytics-label="contact_info_call"
+                  className="transition hover:text-[var(--primary)]"
+                >
                   {siteConfig.phoneDisplay}
                 </TrackedPhoneLink>
               </div>
@@ -80,7 +97,7 @@ export default function ContactPage() {
               </div>
               <div>
                 <p className="font-semibold text-[var(--site-foreground)]">Location</p>
-                <p>{siteConfig.location}</p>
+                <p>{siteConfig.locationSummary}</p>
               </div>
             </CardContent>
           </Card>
@@ -88,24 +105,17 @@ export default function ContactPage() {
           <Card className="animate-fade-up animate-delay-300">
             <CardHeader>
               <CardTitle>Before you submit</CardTitle>
-              <CardDescription>Keep outreach clear, brief, and safe for a public-facing website.</CardDescription>
+              <CardDescription>Clear expectations help people feel safe using a healthcare contact form.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-3 text-sm leading-6 text-[var(--text-muted)]">
-              <p>Do not include diagnosis details, dates of birth, insurance IDs, or other protected health information.</p>
-              <p>If you are a provider or organization sending a patient referral, please use the dedicated referral page instead.</p>
+              <p>Do not include diagnosis details, insurance IDs, dates of birth, or other protected health information.</p>
+              <p>If you are referring a patient, use the referral page or call the clinic for the fastest coordination path.</p>
             </CardContent>
           </Card>
         </div>
       </Section>
 
-      <FinalCtaSection
-        title="Need help verifying fit or benefits?"
-        description="Our team can help you understand services, intake flow, and insurance verification before scheduling."
-        primaryHref={siteConfig.phoneHref}
-        primaryLabel={`Call ${siteConfig.phoneDisplay}`}
-        secondaryHref="/insurance"
-        secondaryLabel="Review Insurance Info"
-      />
+      <FinalCtaSection />
     </>
   );
 }
